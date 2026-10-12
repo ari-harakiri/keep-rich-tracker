@@ -1,0 +1,999 @@
+.page-section[hidden],
+.content-grid[hidden] {
+  display: none !important;
+}
+
+.content-grid.page-mode {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.content-grid.page-mode > .window {
+  width: auto;
+}
+
+.content-grid > .window,
+.shift-form,
+.shift-form > *,
+.audit-body {
+  min-width: 0;
+}
+
+.shift-form label {
+  width: 100%;
+  min-width: 0;
+}
+
+.shift-form input,
+.shift-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  inline-size: 100%;
+  max-inline-size: 100%;
+}
+
+.toolbar select {
+  padding: 7px;
+  color: #101c4c;
+  background: #fff;
+  border: 2px solid;
+  border-color: #555 #fff #fff #555;
+}
+
+/* Sparse notebook-style stickers, placed only in roomy corners and title bars. */
+:root {
+  --leaf-sticker-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 78'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23ffb9ed'/%3E%3Cstop offset='.45' stop-color='%23ff4fc3'/%3E%3Cstop offset='1' stop-color='%23bd2ba6'/%3E%3C/linearGradient%3E%3Cpattern id='p' width='9' height='9' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='2' cy='2' r='1.4' fill='white'/%3E%3Ccircle cx='7' cy='6' r='1' fill='%23fff267'/%3E%3Ccircle cx='3' cy='8' r='.7' fill='%23ffd6f2'/%3E%3C/pattern%3E%3C/g%3E%3Cg stroke='white' stroke-width='4' stroke-linejoin='round' paint-order='stroke fill'%3E%3Cpath fill='url(%23g)' d='M48 61 42 49l4-2-7-10 6 2-6-14 7 5-3-17 5-11 5 11-3 17 7-5-6 14 6-2-7 10 4 2Z'/%3E%3Cpath fill='url(%23g)' d='M44 59C30 49 21 33 21 17c12 8 21 21 27 39l-3-14 6 14Z'/%3E%3Cpath fill='url(%23g)' d='M52 59c14-10 23-26 23-42-12 8-21 21-27 39l3-14-6 14Z'/%3E%3Cpath fill='url(%23g)' d='M43 62C25 57 12 47 6 33c17 4 30 13 41 26l-7-5 8 10Z'/%3E%3Cpath fill='url(%23g)' d='M53 62c18-5 31-15 37-29-17 4-30 13-41 26l7-5-8 10Z'/%3E%3Cpath fill='url(%23g)' d='M44 65C29 69 16 66 6 57c16-2 29 0 42 6l-9-1 10 5Z'/%3E%3Cpath fill='url(%23g)' d='M52 65c15 4 28 1 38-8-16-2-29 0-42 6l9-1-10 5Z'/%3E%3C/g%3E%3Cg opacity='.85' fill='url(%23p)'%3E%3Cpath d='M48 61 42 49l4-2-7-10 6 2-6-14 7 5-3-17 5-11 5 11-3 17 7-5-6 14 6-2-7 10 4 2Z'/%3E%3Cpath d='M44 59C30 49 21 33 21 17c12 8 21 21 27 39l-3-14 6 14Z'/%3E%3Cpath d='M52 59c14-10 23-26 23-42-12 8-21 21-27 39l3-14-6 14Z'/%3E%3Cpath d='M43 62C25 57 12 47 6 33c17 4 30 13 41 26Z'/%3E%3Cpath d='M53 62c18-5 31-15 37-29-17 4-30 13-41 26Z'/%3E%3Cpath d='M44 65C29 69 16 66 6 57c16-2 29 0 42 6Z'/%3E%3Cpath d='M52 65c15 4 28 1 38-8-16-2-29 0-42 6Z'/%3E%3C/g%3E%3Cpath d='M48 57v18' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M48 57v18' stroke='%23bd2ba6' stroke-width='2' stroke-linecap='round'/%3E%3Cg fill='%23fff267' stroke='white' stroke-width='2' paint-order='stroke fill'%3E%3Cpath d='M9 5l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z'/%3E%3Cpath d='M87 48l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z'/%3E%3C/g%3E%3Ccircle cx='84' cy='11' r='3' fill='%23ff66c7' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+:root {
+  --leaf-sticker-image: url("glitter-leaf.svg");
+}
+
+.sticker-space {
+  position: relative;
+  padding-bottom: 56px !important;
+}
+
+.sticker-space::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 18px;
+  bottom: 7px;
+  width: 49px;
+  height: 44px;
+  background: center / contain no-repeat var(--leaf-sticker-image);
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(3px 3px 0 #101c4c);
+  pointer-events: none;
+  transform: rotate(-9deg);
+}
+
+.sticker-space.sticker-left::after {
+  right: auto;
+  left: 18px;
+  transform: rotate(8deg);
+}
+
+.sticker-space.sticker-green::after {
+  filter: hue-rotate(140deg) saturate(1.15) drop-shadow(0 0 2px #fff) drop-shadow(3px 3px 0 #101c4c);
+}
+
+.mini-title.badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+@media (max-width: 420px) {
+  .sticker-space {
+    padding-bottom: 49px !important;
+  }
+
+  .sticker-space::after {
+    right: 13px;
+    bottom: 6px;
+    width: 43px;
+    height: 39px;
+  }
+
+  .sticker-space.sticker-left::after {
+    right: auto;
+    left: 13px;
+  }
+}
+
+@media (min-width: 851px) {
+  .dashboard {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.calendar-panel {
+  overflow: hidden;
+  color: #101c4c;
+  background: #fffafc;
+}
+
+.calendar-panel .mini-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calendar-badge {
+  padding: 2px 8px;
+  color: #101c4c;
+  background: #fff267;
+  border: 2px solid #101c4c;
+  font: 900 10px "Courier New", monospace;
+}
+
+.calendar-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: linear-gradient(90deg, #c9f4ff, #ffd6f2 52%, #fff6a8);
+  border-bottom: 3px solid #101c4c;
+}
+
+.calendar-toolbar > div {
+  min-width: 0;
+}
+
+.calendar-toolbar strong,
+.calendar-toolbar span {
+  display: block;
+}
+
+.calendar-toolbar strong {
+  font: 900 clamp(18px, 3vw, 25px) "Courier New", monospace;
+}
+
+.calendar-toolbar span {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.calendar-toolbar button,
+.calendar-detail button {
+  min-height: 38px;
+  padding: 7px 12px;
+  color: #101c4c;
+  background: #fff;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: 2px 2px 0 #ff66c7;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.calendar-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+  background: #79d34e;
+}
+
+.calendar-summary article {
+  min-width: 0;
+  padding: 10px;
+  background: #fff;
+  border: 3px solid #101c4c;
+  box-shadow: 3px 3px 0 #ff66c7;
+}
+
+.calendar-summary span,
+.calendar-summary strong {
+  display: block;
+}
+
+.calendar-summary span {
+  font: 900 10px "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.calendar-summary strong {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  font: 900 clamp(17px, 3vw, 25px) "Courier New", monospace;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-weekdays {
+  margin: 12px 12px 0;
+  background: #101c4c;
+  color: #fff;
+  border: 3px solid #101c4c;
+  border-bottom: 0;
+}
+
+.calendar-weekdays span {
+  padding: 6px 2px;
+  text-align: center;
+  font: 900 10px "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.calendar-grid {
+  margin: 0 12px 12px;
+  background: #101c4c;
+  border: 3px solid #101c4c;
+  gap: 2px;
+}
+
+.calendar-day,
+.calendar-blank {
+  min-width: 0;
+  min-height: 104px;
+}
+
+.calendar-blank {
+  background: #e9e7ed;
+}
+
+.calendar-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  padding: 8px;
+  overflow: hidden;
+  text-align: left;
+  color: #101c4c;
+  background: #fff;
+  border: 0;
+  cursor: pointer;
+}
+
+.calendar-day:hover,
+.calendar-day:focus-visible {
+  z-index: 1;
+  outline: 3px solid #ff66c7;
+  outline-offset: -3px;
+}
+
+.calendar-day.has-shift {
+  background: linear-gradient(145deg, #fff 0 58%, #d9ffd0 58% 100%);
+}
+
+.calendar-day.is-today .calendar-day__number {
+  background: #62c8ee;
+}
+
+.calendar-day.is-selected {
+  z-index: 2;
+  background: #fff6a8;
+  box-shadow: inset 0 0 0 4px #ff66c7;
+}
+
+.calendar-day__number {
+  align-self: flex-start;
+  min-width: 25px;
+  padding: 2px 5px;
+  text-align: center;
+  background: #eee;
+  border: 1px solid #101c4c;
+  font: 900 12px "Courier New", monospace;
+}
+
+.calendar-day__amount {
+  margin-top: auto;
+  font: 900 clamp(12px, 2vw, 18px) "Courier New", monospace;
+}
+
+.calendar-day__hourly,
+.calendar-day__count {
+  overflow: hidden;
+  font: 700 9px "Courier New", monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-day__hourly {
+  color: #245d14;
+}
+
+.calendar-detail {
+  margin: 0 12px 14px;
+  background: #fff;
+  border: 3px solid #101c4c;
+  box-shadow: 5px 5px 0 #ff66c7;
+}
+
+.calendar-detail > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px;
+  background: #d9ccff;
+  border-bottom: 2px solid #101c4c;
+}
+
+.calendar-detail header span {
+  font: 900 9px "Courier New", monospace;
+  letter-spacing: .12em;
+}
+
+.calendar-detail h4 {
+  margin: 2px 0 0;
+  font-size: 17px;
+}
+
+#calendar-detail-body {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+#calendar-detail-body > p {
+  margin: 4px;
+  font-size: 12px;
+}
+
+.calendar-shift-card {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 7px;
+  align-items: center;
+  padding: 9px;
+  background: #f7fff3;
+  border: 2px solid #101c4c;
+}
+
+.calendar-shift-card div {
+  min-width: 0;
+}
+
+.calendar-shift-card span,
+.calendar-shift-card strong {
+  display: block;
+}
+
+.calendar-shift-card span {
+  font: 700 9px "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.calendar-shift-card strong {
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.calendar-shift-card button {
+  background: #fff267;
+}
+
+.shift-actions {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  grid-column: 1 / -1;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.shift-actions .primary-button {
+  flex: 0 1 260px;
+  min-height: 44px;
+}
+
+#cancel-edit {
+  flex: 0 0 150px;
+  min-height: 44px;
+  padding: 10px 20px;
+  color: #101c4c;
+  background: #d9ccff;
+  border: 3px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: 2px 2px 0 #ff66c7;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#cancel-edit[hidden] {
+  display: none;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 100px;
+}
+
+.actions-cell {
+  min-width: 122px;
+  padding-inline: 10px;
+  text-align: center;
+}
+
+.edit-row,
+.delete-row {
+  min-height: 32px;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.edit-row {
+  min-width: 58px;
+  padding: 5px 10px;
+  color: #101c4c;
+  background: #fff267;
+}
+
+.delete-row {
+  width: 34px;
+  padding: 3px;
+  color: #101c4c;
+  background: #ffb3df;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.edit-row:hover,
+.edit-row:focus-visible,
+.delete-row:hover,
+.delete-row:focus-visible,
+#cancel-edit:hover,
+#cancel-edit:focus-visible {
+  outline: 2px solid #101c4c;
+  outline-offset: 2px;
+}
+
+.note-cell {
+  min-width: 92px;
+  text-align: center;
+}
+
+.note-link {
+  padding: 3px 9px;
+  color: #101c4c;
+  background: #ff8bd5;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: 2px 2px 0 #fff267;
+  font: 800 12px "Courier New", monospace;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.note-link:hover,
+.note-link:focus-visible {
+  background: #fff267;
+  box-shadow: 2px 2px 0 #ff66c7;
+}
+
+.note-dialog {
+  width: min(620px, calc(100vw - 28px));
+  max-height: min(80vh, 720px);
+  padding: 0;
+  overflow: visible;
+  color: #101c4c;
+  background: transparent;
+  border: 0;
+}
+
+.note-dialog::backdrop {
+  background: rgba(16, 28, 76, .62);
+  backdrop-filter: blur(2px);
+}
+
+.note-dialog__window {
+  overflow: hidden;
+  background: #fffafc;
+  border: 4px solid #101c4c;
+  box-shadow: 10px 10px 0 #ff66c7, 15px 15px 0 #fff267;
+}
+
+.note-dialog__titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px 8px 14px;
+  background: linear-gradient(90deg, #62c8ee, #d9ccff 50%, #ff8bd5);
+  border-bottom: 3px solid #101c4c;
+}
+
+.note-dialog__titlebar h3 {
+  margin: 0;
+  font: 900 16px "Courier New", monospace;
+}
+
+.note-dialog__titlebar button {
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  color: #101c4c;
+  background: #fff;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.note-dialog__body {
+  padding: 18px;
+  background: linear-gradient(135deg, #fff 0 72%, #e9ffe2 72% 100%);
+}
+
+.note-dialog__content {
+  min-height: 130px;
+  max-height: 50vh;
+  padding: 16px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #fff;
+  border: 3px inset #b8b8b8;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.note-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  background: #58c8ef;
+  border-top: 3px solid #101c4c;
+}
+
+.note-dialog__actions button {
+  padding: 7px 20px;
+  color: #101c4c;
+  background: #fff267;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: 2px 2px 0 #ff66c7;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.audit-source-note {
+  padding: 7px 9px;
+  color: #101c4c;
+  background: #fff267;
+  border: 2px solid #101c4c;
+  box-shadow: 3px 3px 0 #ff66c7;
+  font: 700 11px "Courier New", monospace;
+}
+
+.audit-table {
+  margin-top: 12px;
+  padding: 0;
+  border: 2px solid #101c4c;
+}
+
+.menubar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menubar button {
+  flex: 0 1 auto;
+}
+
+.page-section {
+  animation: page-arrive .22s ease-out both;
+}
+
+.media-interlude {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  margin: 0 14px 14px;
+  padding: 10px;
+  overflow: hidden;
+  background: #fff267;
+  border: 3px solid #101c4c;
+  box-shadow: 6px 6px 0 #ff66c7;
+}
+
+.media-interlude img {
+  display: block;
+  width: min(92%, 720px);
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid #101c4c;
+}
+
+.media-interlude--top img {
+  object-position: center top;
+}
+
+.media-interlude--lower-crop img {
+  object-position: center 18%;
+}
+
+@media (max-width: 560px) {
+  .media-interlude {
+    min-height: 0;
+    margin-inline: 7px;
+    padding: 7px;
+    box-shadow: 4px 4px 0 #ff66c7;
+  }
+
+}
+
+.backup-panel {
+  overflow: hidden;
+}
+
+.backup-local-badge {
+  padding: 2px 8px;
+  color: #101c4c;
+  background: #fff267;
+  border: 2px solid #101c4c;
+  font: 900 11px "Courier New", monospace;
+}
+
+.backup-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #fff 0 72%, #efffe8 72% 100%);
+}
+
+.backup-drive {
+  display: grid;
+  place-content: center;
+  min-height: 190px;
+  padding: 18px;
+  text-align: center;
+  background: #58c8ef;
+  border: 4px solid #101c4c;
+  box-shadow: 7px 7px 0 #ff66c7;
+}
+
+.backup-drive span {
+  font-size: 72px;
+  filter: drop-shadow(4px 4px 0 #fff267);
+}
+
+.backup-drive strong {
+  margin-top: 12px;
+  font: 900 13px "Courier New", monospace;
+}
+
+.backup-lede {
+  margin: 0 0 18px;
+  font-size: clamp(17px, 2.4vw, 23px);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.backup-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.backup-facts div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  border: 2px solid #101c4c;
+}
+
+.backup-facts dt,
+.backup-facts dd {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+}
+
+.backup-facts dt {
+  background: #f1b2dc;
+  border-right: 2px solid #101c4c;
+  font-weight: 900;
+}
+
+.backup-facts dd {
+  background: #fff;
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+}
+
+#backup-state[data-state="auto-backup-on"] {
+  color: #17651f;
+  background: #caff9b;
+}
+
+#backup-state[data-state="reconnect-needed"],
+#backup-state[data-state="not-linked"] {
+  color: #7b4100;
+  background: #fff5a3;
+}
+
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px 24px;
+  background: #d9ccff;
+  border-top: 3px solid #101c4c;
+}
+
+.backup-actions button {
+  min-height: 42px;
+  padding: 9px 16px;
+  color: #101c4c;
+  background: #fff;
+  border: 3px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: 3px 3px 0 #ff66c7;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.backup-actions .primary-button {
+  background: #fff267;
+}
+
+.backup-note {
+  margin: 0;
+  padding: 13px 24px 16px;
+  background: #fff267;
+  border-top: 2px solid #101c4c;
+  font: 700 12px/1.5 "Courier New", monospace;
+}
+
+@keyframes page-arrive {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 560px) {
+  .content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content-grid > .window {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .shift-form {
+    gap: 8px;
+    padding: 11px;
+  }
+
+  .shift-form label {
+    gap: 3px;
+  }
+
+  .shift-form input[type="date"] {
+    min-height: 44px;
+  }
+
+  .menubar {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 4px;
+    padding: 6px;
+    overflow: visible;
+  }
+
+  .menubar button {
+    grid-column: span 3;
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    padding: 6px 3px;
+    font-size: 11px;
+    line-height: 1.15;
+  }
+
+  .toolbar[data-page="dashboard"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(132px, auto);
+    gap: 7px 10px;
+    padding: 10px;
+  }
+
+  .toolbar[data-page="dashboard"] label {
+    align-self: center;
+  }
+
+  .toolbar[data-page="dashboard"] select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .toolbar[data-page="dashboard"] span {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .dashboard .stat-card {
+    min-width: 0;
+    min-height: 126px;
+    padding: 10px;
+    box-shadow: 3px 3px 0 #ff66c7;
+  }
+
+  .dashboard .stat-card:nth-child(1) { background: #c9f4ff; }
+  .dashboard .stat-card:nth-child(2) { background: #ffd6f2; }
+  .dashboard .stat-card:nth-child(3) { background: #fff6a8; }
+  .dashboard .stat-card:nth-child(4) { background: #ded2ff; }
+  .dashboard .stat-card:nth-child(5) {
+    grid-column: 1 / -1;
+    min-height: 112px;
+    background: #c9ffd8;
+  }
+
+  .dashboard .stat-card span {
+    font-size: 9px;
+    line-height: 1.25;
+  }
+
+  .dashboard .stat-card strong {
+    margin: 9px 0 6px;
+    font-size: clamp(19px, 7vw, 26px);
+  }
+
+  .dashboard .stat-card small {
+    font-size: 9px;
+    line-height: 1.25;
+  }
+
+  .calendar-panel {
+    margin-inline: 7px;
+  }
+
+  .calendar-toolbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 6px;
+    padding: 9px;
+  }
+
+  .calendar-toolbar #calendar-today {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .calendar-toolbar strong {
+    font-size: 18px;
+  }
+
+  .calendar-toolbar span {
+    font-size: 9px;
+  }
+
+  .calendar-summary {
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .calendar-summary article {
+    padding: 7px;
+    box-shadow: 2px 2px 0 #ff66c7;
+  }
+
+  .calendar-summary span {
+    font-size: 8px;
+  }
+
+  .calendar-summary strong {
+    font-size: clamp(14px, 4.6vw, 20px);
+  }
+
+  .calendar-weekdays,
+  .calendar-grid {
+    margin-inline: 7px;
+  }
+
+  .calendar-day,
+  .calendar-blank {
+    min-height: 76px;
+  }
+
+  .calendar-day {
+    gap: 3px;
+    padding: 5px 4px;
+  }
+
+  .calendar-day__number {
+    min-width: 21px;
+    padding: 1px 3px;
+    font-size: 10px;
+  }
+
+  .calendar-day__amount {
+    font-size: clamp(9px, 2.8vw, 13px);
+  }
+
+  .calendar-day__hourly,
+  .calendar-day__count {
+    font-size: 7px;
+  }
+
+  .calendar-detail {
+    margin-inline: 7px;
+  }
+
+  .calendar-shift-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calendar-shift-card button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .table-scroll,
+  .audit-table,
+  .paystub-history {
+    max-width: 100%;
+  }
+
+  .shift-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .backup-layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .backup-drive {
+    min-height: 135px;
+  }
+
+  .backup-facts div {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .backup-actions {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .shift-actions .primary-button,
+  #cancel-edit {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .note-dialog__window {
+    box-shadow: 6px 6px 0 #ff66c7, 10px 10px 0 #fff267;
+  }
+}
+
+@media (max-width: 340px) {
+  .menubar button {
+    grid-column: span 6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-section { animation: none; }
+}

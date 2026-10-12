@@ -1,0 +1,75 @@
+.auth-gate {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow: auto;
+  background: #58d33d;
+}
+
+.auth-gate[hidden] { display: none; }
+.auth-locked > main { filter: blur(5px); pointer-events: none; user-select: none; }
+
+.auth-window {
+  width: min(760px, 100%);
+  overflow: hidden;
+  background: #fff;
+  border: 4px solid #101c4c;
+  box-shadow: 10px 10px 0 #ff66c7, 15px 15px 0 #fff267;
+}
+
+.auth-titlebar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  color: #101c4c;
+  background: linear-gradient(90deg, #d9ccff, #f1b2dc);
+  border-bottom: 3px solid #101c4c;
+  font: 900 14px "Courier New", monospace;
+}
+
+.auth-layout { display: grid; grid-template-columns: minmax(250px, .9fr) minmax(300px, 1.1fr); }
+.auth-art { min-height: 440px; background: #fff267; border-right: 3px solid #101c4c; }
+.auth-art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.auth-form-wrap { padding: clamp(24px, 5vw, 46px); background: linear-gradient(145deg, #fff 0 72%, #eaffdf 72%); }
+.auth-kicker { margin: 0 0 8px; color: #0d7d2c; font: 900 12px "Courier New", monospace; letter-spacing: .08em; }
+.auth-form-wrap h2 { margin: 0 0 22px; color: #101c4c; font-size: clamp(27px, 4vw, 40px); line-height: 1.02; text-shadow: 3px 3px 0 #ff9bd8; }
+.auth-form { display: grid; gap: 14px; }
+.auth-form label { display: grid; gap: 6px; color: #101c4c; font-weight: 900; }
+.auth-form input { min-height: 43px; padding: 8px 10px; color: #101c4c; background: #fff; border: 3px inset #b8b8b8; font: 700 16px Arial, sans-serif; }
+.auth-form button { min-height: 44px; padding: 9px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
+.auth-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.auth-links button { padding: 0; color: #101c4c; background: transparent; border: 0; text-decoration: underline; font-weight: 800; cursor: pointer; }
+.auth-status { min-height: 42px; margin: 18px 0 0; padding: 9px; background: #e6f8ff; border: 2px solid #101c4c; font: 700 12px/1.35 "Courier New", monospace; }
+
+.account-panel { overflow: hidden; }
+.cloud-badge { padding: 2px 8px; color: #101c4c; background: #caff9b; border: 2px solid #101c4c; font: 900 11px "Courier New", monospace; }
+.account-layout { display: grid; grid-template-columns: 180px minmax(0,1fr); gap: 24px; padding: 24px; background: linear-gradient(135deg, #fff 0 72%, #efffe8 72%); }
+.account-icon { display: grid; place-content: center; min-height: 180px; text-align: center; background: #58c8ef; border: 4px solid #101c4c; box-shadow: 7px 7px 0 #ff66c7; }
+.account-icon span { font-size: 68px; filter: drop-shadow(4px 4px 0 #fff267); }
+.account-icon strong { margin-top: 10px; font: 900 13px "Courier New", monospace; }
+.account-copy h4 { margin: 0 0 12px; font-size: 24px; }
+.cloud-facts { display: grid; gap: 8px; margin: 0; }
+.cloud-facts div { display: grid; grid-template-columns: 120px minmax(0,1fr); border: 2px solid #101c4c; }
+.cloud-facts dt,.cloud-facts dd { margin: 0; padding: 9px 10px; overflow-wrap: anywhere; }
+.cloud-facts dt { background: #f1b2dc; border-right: 2px solid #101c4c; font-weight: 900; }
+.cloud-facts dd { background: #fff; font: 700 13px "Courier New", monospace; }
+#cloud-state[data-state="synced"] { color: #17651f; background: #caff9b; }
+#cloud-state[data-state="pending"],#cloud-state[data-state="setup-needed"] { color: #7b4100; background: #fff5a3; }
+.account-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.account-actions button,.emergency-backup button { min-height: 40px; padding: 8px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
+.emergency-backup { padding: 16px 24px 20px; background: #d9ccff; border-top: 3px solid #101c4c; }
+.emergency-backup summary { cursor: pointer; font-weight: 900; }
+.emergency-backup p { font-size: 13px; }
+.emergency-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+@media (max-width: 680px) {
+  .auth-layout { grid-template-columns: 1fr; }
+  .auth-art { min-height: 190px; max-height: 230px; border-right: 0; border-bottom: 3px solid #101c4c; }
+  .auth-form-wrap { padding: 24px 20px 30px; }
+  .account-layout { grid-template-columns: 1fr; padding: 16px; }
+  .account-icon { min-height: 130px; }
+  .cloud-facts div { grid-template-columns: 92px minmax(0,1fr); }
+}
