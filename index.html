@@ -577,6 +577,12 @@ th {
   border-color: #555 #fff #fff #555;
 }
 
+@media (min-width: 851px) {
+  .dashboard {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
 .shift-actions {
   display: flex;
   align-items: stretch;
@@ -1008,6 +1014,11 @@ th {
   .dashboard .stat-card:nth-child(2) { background: #ffd6f2; }
   .dashboard .stat-card:nth-child(3) { background: #fff6a8; }
   .dashboard .stat-card:nth-child(4) { background: #ded2ff; }
+  .dashboard .stat-card:nth-child(5) {
+    grid-column: 1 / -1;
+    min-height: 112px;
+    background: #c9ffd8;
+  }
 
   .dashboard .stat-card span {
     font-size: 9px;
@@ -1167,12 +1178,13 @@ th {
     <article class="stat-card"><span>Selected paycheck sales</span><strong id="stat-sales">$0.00</strong><small id="period-label">No shifts yet</small></article>
     <article class="stat-card"><span>Tips earned</span><strong id="stat-tips">$0.00</strong><small id="tip-rate">0.0% of sales</small></article>
     <article class="stat-card"><span>Commission paid</span><strong id="stat-commission">$0.00</strong><small id="commission-delta">Audit pending</small></article>
-    <article class="stat-card pink"><span>Paycheck earnings</span><strong id="stat-earnings">$0.00</strong><small>tips + commission</small></article>
+    <article class="stat-card pink"><span>Total earnings</span><strong id="stat-earnings">—</strong><small>logged shifts + paid commission</small></article>
+    <article class="stat-card hourly"><span>Average hourly</span><strong id="stat-hourly">—</strong><small>including tips + commission</small></article>
   </section>
   <div class="content-grid">
     <section class="window inset page-section" data-page="log-shift" id="entry" aria-labelledby="entry-title"><header class="mini-title"><h3 id="entry-title">New Shift Entry</h3></header><form id="shift-form" class="shift-form">
       <label>Shift date<input id="date" type="date" required></label><label>Pay date<input id="pay-date" type="date" required></label>
-      <label>Hours<input id="hours" type="number" min="0" step="0.25" placeholder="Blank if unknown"></label>
+      <label>Hours<input id="hours" type="number" min="0" step="0.25" placeholder="Blank if unknown"></label><label>Hourly wage ($)<input id="hourly-wage" type="number" min="0" step="0.01" placeholder="Enter your current rate"></label>
       <label>Tips ($)<input id="tips" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Sales ($)<input id="sales" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label>
       <label>Transactions<input id="transactions" type="number" min="0" step="1" placeholder="Blank if unknown"></label><label>Items sold<input id="items" type="number" min="0" step="1" placeholder="Blank if unknown"></label>
       <label class="notes-field">Notes · optional<textarea id="notes" rows="3" placeholder="Anything worth remembering about this shift"></textarea></label>
@@ -1204,7 +1216,7 @@ th {
   <section class="window inset wide-panel page-section" data-page="pay-periods" aria-labelledby="summary-title"><header class="mini-title"><h3 id="summary-title">Pay Date Summary</h3></header><div class="table-scroll"><table><thead><tr><th>Pay date</th><th>Hours</th><th>Sales</th><th>Tips</th><th>Expected 1.5%</th></tr></thead><tbody id="summary-body"></tbody></table></div></section>
   <section class="window inset wide-panel page-section" data-page="trends" aria-labelledby="trend-title"><header class="mini-title"><h3 id="trend-title">Sales + Tips Trend</h3></header><div id="chart" class="chart" role="img" aria-label="Sales and tips by shift"></div><div class="chart-legend"><span><i class="sales-key"></i>Sales</span><span><i class="tips-key"></i>Tips</span></div></section>
   <section class="window inset wide-panel page-section" data-page="trends" id="simulator" aria-labelledby="sim-title"><header class="mini-title"><h3 id="sim-title">Commission Simulator</h3></header><div class="simulator-grid"><label>Sales to test ($)<input id="sim-sales" type="number" min="0" step="0.01" value="10000"></label><label>Alternative commission rate<input id="sim-rate" type="range" min="0" max="5" step="0.1" value="1.5"><output id="sim-rate-output">1.5%</output></label><div class="sim-result"><span>Estimated commission</span><strong id="sim-result">$150.00</strong><small id="sim-compare">Same as your expected rate</small></div></div></section>
-  <section class="window inset wide-panel page-section" data-page="log-shift" id="history" aria-labelledby="history-title"><header class="mini-title"><h3 id="history-title">Shift History</h3></header><div class="filters"><label>Search<input id="search" type="search" placeholder="Search dates, numbers, or notes"></label><label>Pay date<select id="period-filter"><option value="all">All pay dates</option></select></label><button type="button" id="clear-all">Clear all data</button></div><div class="table-scroll"><table><thead><tr><th>Shift date</th><th>Pay date</th><th>Hours</th><th>Tips</th><th>Sales</th><th>Txns</th><th>Items</th><th>Avg order</th><th>Expected 1.5%</th><th>Notes</th><th></th></tr></thead><tbody id="history-body"></tbody></table></div><p class="empty-state" id="empty-state">No shifts match these filters.</p></section>
+  <section class="window inset wide-panel page-section" data-page="log-shift" id="history" aria-labelledby="history-title"><header class="mini-title"><h3 id="history-title">Shift History</h3></header><div class="filters"><label>Search<input id="search" type="search" placeholder="Search dates, numbers, or notes"></label><label>Pay date<select id="period-filter"><option value="all">All pay dates</option></select></label><button type="button" id="clear-all">Clear all data</button></div><div class="table-scroll"><table><thead><tr><th>Shift date</th><th>Pay date</th><th>Hours</th><th>Hourly wage</th><th>Tips</th><th>Daily earnings</th><th>Sales</th><th>Txns</th><th>Items</th><th>Avg order</th><th>Expected 1.5%</th><th>Notes</th><th></th></tr></thead><tbody id="history-body"></tbody></table></div><p class="empty-state" id="empty-state">No shifts match these filters.</p></section>
   <section class="window inset wide-panel account-panel page-section" data-page="account" aria-labelledby="account-title"><header class="mini-title"><h3 id="account-title">Account &amp; Sync</h3><span class="cloud-badge">AUTO-SYNC</span></header><div class="account-layout"><div class="account-icon" aria-hidden="true"><span>🌐</span><strong>KEEP_RICH ONLINE</strong></div><div class="account-copy"><h4>Your tracker follows you.</h4><dl class="cloud-facts"><div><dt>Account</dt><dd id="account-email">—</dd></div><div><dt>Status</dt><dd id="cloud-state" data-state="connecting">Connecting…</dd></div><div><dt>Last sync</dt><dd id="cloud-last">Not yet</dd></div></dl><p class="status" id="cloud-detail" aria-live="polite">Checking your account…</p><div class="account-actions"><button type="button" id="cloud-sync-now">Sync now</button><button type="button" id="account-signout">Sign out</button></div></div></div><details class="emergency-backup"><summary>Emergency backup options</summary><p>You normally do not need these. They create or restore a portable copy if you ever want one.</p><div class="emergency-actions"><button type="button" id="cloud-download">Download a copy</button><button type="button" id="cloud-restore">Restore a copy</button><input id="cloud-import" type="file" accept="application/json,.json" hidden></div></details></section>
   <dialog id="note-dialog" class="note-dialog" aria-labelledby="note-dialog-title">
     <div class="note-dialog__window">
@@ -1484,6 +1496,8 @@ function has(v){return v!==null&&v!==undefined&&Number.isFinite(Number(v))}
 function sumKnown(list,key){const vals=list.map(r=>r[key]).filter(has).map(Number);return vals.length?vals.reduce((a,b)=>a+b,0):null}
 function fmt(v){return has(v)?money.format(Number(v)):'—'}
 function numFmt(v,digits=2){return has(v)?Number(v).toFixed(digits):'—'}
+function shiftEarnings(shift){return has(shift.hours)&&has(shift.hourlyWage)?Number(shift.hours)*Number(shift.hourlyWage)+(has(shift.tips)?Number(shift.tips):0):null}
+function latestHourlyWage(){return [...shifts].reverse().find(shift=>has(shift.hourlyWage))?.hourlyWage??''}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(shifts));window.KeepRichCloud?.changed('Shift data')}
 function payDateLabel(dateString){return dateString?shortDate.format(asDate(dateString)):'Unassigned'}
 function dashboardRows(){const selected=$('#dashboard-pay-date').value;return selected==='all'?shifts:selected==='unassigned'?shifts.filter(s=>!s.payDate):shifts.filter(s=>s.payDate===selected)}
@@ -1501,8 +1515,8 @@ function renderAudit(){
 
 function render(){
   renderPayDateOptions();
-  const rows=dashboardRows(),sales=sumKnown(rows,'sales'),tips=sumKnown(rows,'tips'),actual=sumKnown(dashboardPaystubs(),'commission'),expected=has(sales)?sales*RATE:null,difference=has(expected)&&has(actual)?actual-expected:null,earnings=!has(tips)&&!has(actual)?null:(tips||0)+(actual||0);
-  $('#stat-sales').textContent=fmt(sales);$('#stat-tips').textContent=fmt(tips);$('#stat-commission').textContent=fmt(actual);$('#stat-earnings').textContent=fmt(earnings);
+  const rows=dashboardRows(),paystubs=dashboardPaystubs(),sales=sumKnown(rows,'sales'),tips=sumKnown(rows,'tips'),actual=sumKnown(paystubs,'commission'),loggedHours=sumKnown(rows,'hours'),dailyEarnings=rows.map(shift=>shiftEarnings(shift)),shiftTotal=dailyEarnings.length&&dailyEarnings.every(has)?dailyEarnings.reduce((sum,value)=>sum+value,0):null,expected=has(sales)?sales*RATE:null,difference=has(expected)&&has(actual)?actual-expected:null,totalEarnings=has(shiftTotal)&&has(actual)?shiftTotal+actual:null,averageHourly=has(totalEarnings)&&has(loggedHours)&&loggedHours>0?totalEarnings/loggedHours:null;
+  $('#stat-sales').textContent=fmt(sales);$('#stat-tips').textContent=fmt(tips);$('#stat-commission').textContent=fmt(actual);$('#stat-earnings').textContent=fmt(totalEarnings);$('#stat-hourly').textContent=fmt(averageHourly);
   const selectedPayDate=$('#dashboard-pay-date').value;
   $('#period-label').textContent=selectedPayDate==='all'?'All recorded shifts':selectedPayDate==='unassigned'?'Pay date unassigned':`Pay date ${payDateLabel(selectedPayDate)}`;
   $('#schedule-note').textContent='Grouped only by the paycheck date saved on each shift';
@@ -1527,7 +1541,7 @@ function renderPayDateOptions(){
 
 function filtered(){const q=$('#search').value.trim().toLowerCase(),payDate=$('#period-filter').value;return shifts.filter(s=>(payDate==='all'||(payDate==='unassigned'?!s.payDate:s.payDate===payDate))&&(!q||Object.values(s).join(' ').toLowerCase().includes(q))).sort((a,b)=>b.date.localeCompare(a.date))}
 function renderHistory(){
-  const rows=filtered();$('#history-body').innerHTML=rows.map(s=>{const expected=has(s.sales)?Number(s.sales)*RATE:null,average=has(s.sales)&&has(s.transactions)&&Number(s.transactions)>0?Number(s.sales)/Number(s.transactions):null,note=s.notes?.trim();return`<tr><td>${s.date}</td><td>${s.payDate?payDateLabel(s.payDate):'—'}</td><td>${numFmt(s.hours)}</td><td>${fmt(s.tips)}</td><td>${fmt(s.sales)}</td><td>${has(s.transactions)?s.transactions:'—'}</td><td>${has(s.items)?s.items:'—'}</td><td>${fmt(average)}</td><td>${fmt(expected)}</td><td class="note-cell">${note?`<button class="note-link" type="button" data-view-note="${s.id}" aria-label="View note for shift from ${s.date}">View note</button>`:'—'}</td><td class="actions-cell"><div class="row-actions"><button class="edit-row" type="button" data-edit="${s.id}" aria-label="Edit shift from ${s.date}">Edit</button><button class="delete-row" type="button" data-delete="${s.id}" aria-label="Delete shift from ${s.date}">×</button></div></td></tr>`}).join('');$('#empty-state').style.display=rows.length?'none':'block';
+  const rows=filtered();$('#history-body').innerHTML=rows.map(s=>{const expected=has(s.sales)?Number(s.sales)*RATE:null,average=has(s.sales)&&has(s.transactions)&&Number(s.transactions)>0?Number(s.sales)/Number(s.transactions):null,daily=shiftEarnings(s),note=s.notes?.trim();return`<tr><td>${s.date}</td><td>${s.payDate?payDateLabel(s.payDate):'—'}</td><td>${numFmt(s.hours)}</td><td>${fmt(s.hourlyWage)}</td><td>${fmt(s.tips)}</td><td>${fmt(daily)}</td><td>${fmt(s.sales)}</td><td>${has(s.transactions)?s.transactions:'—'}</td><td>${has(s.items)?s.items:'—'}</td><td>${fmt(average)}</td><td>${fmt(expected)}</td><td class="note-cell">${note?`<button class="note-link" type="button" data-view-note="${s.id}" aria-label="View note for shift from ${s.date}">View note</button>`:'—'}</td><td class="actions-cell"><div class="row-actions"><button class="edit-row" type="button" data-edit="${s.id}" aria-label="Edit shift from ${s.date}">Edit</button><button class="delete-row" type="button" data-delete="${s.id}" aria-label="Delete shift from ${s.date}">×</button></div></td></tr>`}).join('');$('#empty-state').style.display=rows.length?'none':'block';
 }
 
 function openNote(id){
@@ -1543,14 +1557,14 @@ function renderChart(){
 
 function setFormValue(id,input){$(`#${id}`).value=has(input)?input:''}
 function resetShiftEditor(message='Ready for your next shift.'){
-  editingId=null;$('#shift-form').reset();$('#date').value=isoToday();$('#shift-submit').textContent='Save shift';$('#cancel-edit').hidden=true;$('#entry-status').textContent=message;
+  editingId=null;const wage=latestHourlyWage();$('#shift-form').reset();$('#date').value=isoToday();$('#hourly-wage').value=wage;$('#shift-submit').textContent='Save shift';$('#cancel-edit').hidden=true;$('#entry-status').textContent=message;
 }
 function editShift(id){
   const shift=shifts.find(row=>row.id===id);if(!shift)return;editingId=id;
-  $('#date').value=shift.date;$('#pay-date').value=shift.payDate||'';setFormValue('hours',shift.hours);setFormValue('tips',shift.tips);setFormValue('sales',shift.sales);setFormValue('transactions',shift.transactions);setFormValue('items',shift.items);$('#notes').value=shift.notes||'';
+  $('#date').value=shift.date;$('#pay-date').value=shift.payDate||'';setFormValue('hours',shift.hours);setFormValue('hourly-wage',shift.hourlyWage);setFormValue('tips',shift.tips);setFormValue('sales',shift.sales);setFormValue('transactions',shift.transactions);setFormValue('items',shift.items);$('#notes').value=shift.notes||'';
   $('#shift-submit').textContent='Update shift';$('#cancel-edit').hidden=false;$('#entry-status').textContent=`Editing ${shift.date}. Changes are not saved until you choose Update shift.`;showPage('log-shift');$('#entry').scrollIntoView({behavior:'smooth',block:'start'});
 }
-$('#shift-form').addEventListener('submit',e=>{e.preventDefault();const sales=value('sales'),transactions=value('transactions'),metrics=['hours','tips','sales','transactions','items'].map(value);if(metrics.every(v=>!has(v))&&!$('#notes').value.trim()){$('#entry-status').textContent='Add at least one shift detail before saving.';return}const wasEditing=Boolean(editingId),shift={id:editingId||crypto.randomUUID(),date:$('#date').value,payDate:$('#pay-date').value,hours:value('hours'),tips:value('tips'),sales,transactions,items:value('items'),notes:$('#notes').value.trim()};if(wasEditing){const index=shifts.findIndex(row=>row.id===editingId);if(index>=0)shifts[index]=shift}else shifts.push(shift);save();render();resetShiftEditor(`${wasEditing?'Updated':'Saved'} ${shift.date} for pay date ${payDateLabel(shift.payDate)}.${has(sales)?` Expected commission: ${money.format(sales*RATE)}.`:''}`)});
+$('#shift-form').addEventListener('submit',e=>{e.preventDefault();const sales=value('sales'),transactions=value('transactions'),metrics=['hours','hourly-wage','tips','sales','transactions','items'].map(value);if(metrics.every(v=>!has(v))&&!$('#notes').value.trim()){$('#entry-status').textContent='Add at least one shift detail before saving.';return}const wasEditing=Boolean(editingId),shift={id:editingId||crypto.randomUUID(),date:$('#date').value,payDate:$('#pay-date').value,hours:value('hours'),hourlyWage:value('hourly-wage'),tips:value('tips'),sales,transactions,items:value('items'),notes:$('#notes').value.trim()};if(wasEditing){const index=shifts.findIndex(row=>row.id===editingId);if(index>=0)shifts[index]=shift}else shifts.push(shift);save();render();resetShiftEditor(`${wasEditing?'Updated':'Saved'} ${shift.date} for pay date ${payDateLabel(shift.payDate)}.${has(sales)?` Expected commission: ${money.format(sales*RATE)}.`:''}`)});
 $('#cancel-edit').addEventListener('click',()=>resetShiftEditor('Edit canceled. The saved shift was not changed.'));
 $('#history-body').addEventListener('click',e=>{const noteId=e.target.dataset.viewNote;if(noteId){openNote(noteId);return}const editId=e.target.dataset.edit;if(editId){editShift(editId);return}const id=e.target.dataset.delete;if(!id)return;shifts=shifts.filter(s=>s.id!==id);if(editingId===id)resetShiftEditor('The shift being edited was deleted.');save();render()});
 $('#close-note').addEventListener('click',closeNote);$('#close-note-bottom').addEventListener('click',closeNote);$('#note-dialog').addEventListener('click',e=>{if(e.target===$('#note-dialog'))closeNote()});
@@ -1578,6 +1592,248 @@ $('#sim-sales').addEventListener('input',updateSimulator);$('#sim-rate').addEven
 window.addEventListener('paystubs:changed',render);
 window.addEventListener('tracker:data-loaded',()=>{shifts=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');editingId=null;render();resetShiftEditor('Your synced shifts are ready.')});
 
-updateSimulator();render();showPage(location.hash.slice(1),!PAGE_NAMES.includes(location.hash.slice(1)));
+$('#hourly-wage').value=latestHourlyWage();updateSimulator();render();showPage(location.hash.slice(1),!PAGE_NAMES.includes(location.hash.slice(1)));
 
-</script><script type="module" src="paystub.mjs?v=26"></script></body></html>
+</script><script>
+window.KeepRichPdfReaderReady = false;
+const reportPdfReaderError = detail => {
+  const status = document.querySelector('#paystub-status');
+  status.dataset.readerError = String(detail || 'Unknown PDF reader error');
+  status.textContent = 'The PDF reader could not start on this browser. Refresh the page and try again.';
+};
+window.addEventListener('error', event => {
+  if (/pdf|paystub/i.test(event.filename || event.message || '')) reportPdfReaderError(event.message);
+});
+window.addEventListener('unhandledrejection', event => {
+  reportPdfReaderError(event.reason?.message || event.reason);
+});
+document.querySelector('#paystub-file').addEventListener('change', event => {
+  const selectedFile = event.target.files && event.target.files[0];
+  if (!selectedFile) return;
+  const status = document.querySelector('#paystub-status');
+  status.textContent = `Selected ${selectedFile.name}. Starting the PDF reader…`;
+  window.setTimeout(() => {
+    if (!window.KeepRichPdfReaderReady) {
+      reportPdfReaderError('PDF module did not finish loading');
+    }
+  }, 1500);
+});
+</script><script type="module">
+import * as pdfjsLib from './pdf.min.mjs';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.min.mjs';
+window.KeepRichPdfReaderReady = true;
+
+const STORAGE_KEY = 'keepRichPaystubsV1';
+const $ = selector => document.querySelector(selector);
+const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+let paystubs = readSaved();
+
+function readSaved() {
+  try {
+    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveAll() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(paystubs));
+  window.KeepRichCloud?.changed('Paystub data');
+  window.dispatchEvent(new Event('paystubs:changed'));
+}
+
+function safeText(value) {
+  return String(value ?? '').replace(/[<>&"']/g, character => ({
+    '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
+
+function numberOrNull(value) {
+  if (value === '' || value === null || value === undefined) return null;
+  const number = Number(String(value).replace(/[$,]/g, ''));
+  return Number.isFinite(number) ? number : null;
+}
+
+function moneyOrDash(value) {
+  return value === null || value === undefined ? '—' : money.format(value);
+}
+
+function numberOrDash(value) {
+  return value === null || value === undefined ? '—' : Number(value).toFixed(2);
+}
+
+function toIso(usDate) {
+  if (!usDate) return '';
+  const match = usDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  return match ? `${match[3]}-${match[1].padStart(2, '0')}-${match[2].padStart(2, '0')}` : '';
+}
+
+function compact(text) {
+  return text.replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function firstNumber(text, patterns, group = 1) {
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match?.[group]) return numberOrNull(match[group]);
+  }
+  return null;
+}
+
+function parsePaystub(rawText) {
+  const text = compact(rawText);
+  const payDate = text.match(/Pay\s*Date\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i)?.[1] || '';
+  const period = text.match(/Pay\s*Period\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})\s*[-–]\s*(\d{1,2}\/\d{1,2}\/\d{4})/i);
+  const hours = firstNumber(text, [
+    /Hours\s*Worked\s+([\d,.]+)/i,
+    /Regular\s+[\d,.]+\s+([\d,.]+)\s+[\d,.]+/i,
+    /Hours\s*Paid\s+([\d,.]+)/i
+  ]);
+  const commission = firstNumber(text, [
+    /Commission\s+([\d,.]+)\s+[\d,.]+/i,
+    /Commission\s+(?:Current\s+)?([\d,.]+)/i
+  ]);
+  const gross = firstNumber(text, [/Gross\s*Pay\s+([\d,.]+)/i, /Gross\s+([\d,.]+)/i]);
+  const net = firstNumber(text, [/Net\s*Pay\s+([\d,.]+)/i, /Net\s+([\d,.]+)/i]);
+  return {
+    payDate: toIso(payDate),
+    periodStart: toIso(period?.[1] || ''),
+    periodEnd: toIso(period?.[2] || ''),
+    hours,
+    commission,
+    gross,
+    net
+  };
+}
+
+async function extractText(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const document = await pdfjsLib.getDocument({ data: bytes }).promise;
+  const pages = [];
+  for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+    const page = await document.getPage(pageNumber);
+    const content = await page.getTextContent();
+    pages.push(content.items.map(item => item.str).join(' '));
+  }
+  return pages.join('\n');
+}
+
+function setField(id, value) {
+  $(id).value = value ?? '';
+}
+
+function populateForm(data, filename) {
+  setField('#stub-pay-date', data.payDate);
+  setField('#stub-period-start', data.periodStart);
+  setField('#stub-period-end', data.periodEnd);
+  setField('#stub-hours', data.hours);
+  setField('#stub-commission', data.commission);
+  setField('#stub-gross', data.gross);
+  setField('#stub-net', data.net);
+  setField('#stub-source', filename);
+  $('#paystub-form').hidden = false;
+}
+
+function renderPaystubs() {
+  const rows = [...paystubs].sort((a, b) => b.payDate.localeCompare(a.payDate));
+  $('#paystub-body').innerHTML = rows.map(stub => `
+    <tr>
+      <td>${safeText(stub.payDate)}</td>
+      <td>${stub.periodStart || stub.periodEnd ? `${safeText(stub.periodStart || '—')} – ${safeText(stub.periodEnd || '—')}` : '—'}</td>
+      <td>${numberOrDash(stub.hours)}</td>
+      <td>${moneyOrDash(stub.commission)}</td>
+      <td>${moneyOrDash(stub.gross)}</td>
+      <td>${moneyOrDash(stub.net)}</td>
+      <td class="paystub-row-source" title="${safeText(stub.source)}">${safeText(stub.source)}</td>
+      <td><button class="delete-row" type="button" data-delete-stub="${safeText(stub.id)}" aria-label="Delete paystub from ${safeText(stub.payDate)}">×</button></td>
+    </tr>`).join('');
+  $('#paystub-empty').style.display = rows.length ? 'none' : 'block';
+}
+
+$('#paystub-file').addEventListener('change', async event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+    $('#paystub-status').textContent = 'Please choose a PDF file.';
+    return;
+  }
+  $('#paystub-status').textContent = `Scanning ${file.name} locally…`;
+  $('#paystub-form').hidden = true;
+  try {
+    const data = parsePaystub(await extractText(file));
+    populateForm(data, file.name);
+    const found = [data.payDate, data.periodStart, data.periodEnd, data.hours, data.commission, data.gross, data.net].filter(value => value !== '' && value !== null).length;
+    $('#paystub-status').textContent = found
+      ? `Found ${found} fields. Review anything missing, then save.`
+      : 'No familiar fields were found. You can enter the values manually before saving.';
+  } catch (error) {
+    console.error(error);
+    populateForm({
+      payDate: '', periodStart: '', periodEnd: '', hours: null,
+      commission: null, gross: null, net: null
+    }, file.name);
+    $('#paystub-status').textContent = 'Automatic reading failed, but you can enter the paystub totals below and save them.';
+  } finally {
+    event.target.value = '';
+  }
+});
+
+$('#paystub-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const payDate = $('#stub-pay-date').value;
+  if (!payDate) {
+    $('#paystub-status').textContent = 'A pay date is required before saving.';
+    return;
+  }
+  const record = {
+    id: crypto.randomUUID(),
+    payDate,
+    periodStart: $('#stub-period-start').value || null,
+    periodEnd: $('#stub-period-end').value || null,
+    hours: numberOrNull($('#stub-hours').value),
+    commission: numberOrNull($('#stub-commission').value),
+    gross: numberOrNull($('#stub-gross').value),
+    net: numberOrNull($('#stub-net').value),
+    source: $('#stub-source').value.trim() || 'paystub.pdf'
+  };
+  paystubs.push(record);
+  saveAll();
+  renderPaystubs();
+  $('#paystub-status').textContent = `Saved paystub dated ${record.payDate}.`;
+  event.target.reset();
+  event.target.hidden = true;
+  $('#paystub-file').value = '';
+});
+
+$('#use-stub-date').addEventListener('click', () => {
+  const date = $('#stub-pay-date').value;
+  if (!date) {
+    $('#paystub-status').textContent = 'No pay date is available to copy.';
+    return;
+  }
+  $('#pay-date').value = date;
+  window.dispatchEvent(new CustomEvent('tracker:navigate', { detail: 'log-shift' }));
+  $('#entry').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $('#entry-status').textContent = `Pay date ${date} copied from the paystub. Add shift details before saving.`;
+});
+
+$('#paystub-body').addEventListener('click', event => {
+  const id = event.target.dataset.deleteStub;
+  if (!id) return;
+  if (!confirm('Delete this saved paystub summary from this browser?')) return;
+  paystubs = paystubs.filter(stub => stub.id !== id);
+  saveAll();
+  renderPaystubs();
+});
+
+window.addEventListener('tracker:data-loaded', () => {
+  paystubs = readSaved();
+  renderPaystubs();
+  window.dispatchEvent(new Event('paystubs:changed'));
+});
+
+renderPaystubs();
+
+</script></body></html>
