@@ -1,0 +1,148 @@
+.paystub-panel .mini-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.local-badge {
+  padding: 2px 7px;
+  color: #101c4c;
+  background: #fff267;
+  border: 1px solid #101c4c;
+  box-shadow: 2px 2px 0 #ff66c7;
+  font: 700 10px "Courier New", monospace;
+}
+
+.paystub-layout {
+  display: grid;
+  grid-template-columns: minmax(210px, .72fr) minmax(0, 1.28fr);
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(145deg, #fff 0 70%, #fff1f9 70% 100%);
+}
+
+.paystub-upload {
+  min-width: 0;
+}
+
+#paystub-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.file-drop {
+  display: grid;
+  min-height: 142px;
+  place-content: center;
+  gap: 5px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  color: #101c4c;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.78), rgba(174,234,255,.78)),
+    repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,102,199,.12) 8px 16px);
+  border: 3px dashed #101c4c;
+  box-shadow: 5px 5px 0 #ff66c7;
+}
+
+.file-drop:hover,
+.file-drop:focus-within {
+  background-color: #fff267;
+  transform: translate(-1px, -1px);
+}
+
+.file-drop__icon {
+  font-size: 34px;
+  filter: drop-shadow(2px 2px 0 #fff267);
+}
+
+.file-drop strong {
+  font: 900 17px "Arial Black", Impact, sans-serif;
+  text-transform: uppercase;
+}
+
+.file-drop small,
+.privacy-note {
+  font: 11px "Courier New", monospace;
+}
+
+.privacy-note {
+  margin: 12px 0 8px;
+  line-height: 1.45;
+}
+
+.paystub-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  background: #edfaff;
+  border: 2px solid #101c4c;
+  box-shadow: inset 3px 3px 0 rgba(70,191,231,.32);
+}
+
+.paystub-form[hidden] {
+  display: none;
+}
+
+.paystub-form label {
+  display: grid;
+  gap: 4px;
+  color: #101c4c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.paystub-form input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  color: #101c4c;
+  background: #fff;
+  border: 2px solid #101c4c;
+  font: 13px "Courier New", monospace;
+}
+
+.paystub-form input:read-only {
+  background: #f2eef7;
+}
+
+.paystub-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 3px;
+}
+
+.paystub-actions button {
+  min-height: 38px;
+}
+
+.paystub-history {
+  margin: 0 16px 12px;
+  border: 2px solid #101c4c;
+}
+
+.paystub-panel > .empty-state {
+  margin: 0 16px 15px;
+}
+
+.paystub-row-source {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .paystub-layout { grid-template-columns: 1fr; padding: 12px; }
+  .paystub-form { grid-template-columns: 1fr; }
+  .paystub-history { margin-inline: 12px; }
+}
