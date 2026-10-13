@@ -1,0 +1,461 @@
+.dashboard-lead,
+.dashboard-group,
+.content-grid {
+  min-width: 0;
+}
+
+.app-shell[data-current-page="dashboard"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.app-shell[data-current-page="dashboard"]::before {
+  position: absolute;
+  z-index: 0;
+  inset: 88px 0 0;
+  content: "";
+  pointer-events: none;
+  background-image: url("layout-assets/2443353_1ad8d.gif");
+  background-position: left top;
+  background-repeat: repeat;
+  background-size: 512px auto;
+  opacity: .16;
+}
+
+.app-shell[data-current-page="dashboard"] > * {
+  position: relative;
+  z-index: auto;
+}
+
+.app-shell[data-current-page="dashboard"] .page-section {
+  animation: none !important;
+  transform: none !important;
+}
+
+.dashboard-lead > .app-intro,
+.dashboard-lead > .kris-hero,
+.dashboard-lead > .toolbar,
+.dashboard-lead > .dashboard {
+  animation: none;
+}
+
+.dashboard-transition {
+  position: relative;
+  min-height: 142px;
+  margin: -10px 14px 0;
+}
+
+.layout-visual {
+  margin: 0;
+  min-width: 0;
+  pointer-events: none;
+}
+
+.layout-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.dashboard-sticker,
+.dashboard-capybara {
+  position: absolute;
+}
+
+.dashboard-sticker--leaf-shower {
+  left: 1.5%;
+  bottom: 4px;
+  width: 120px;
+}
+
+.dashboard-sticker--green {
+  left: 14%;
+  bottom: 4px;
+  width: 158px;
+}
+
+.dashboard-sticker--green-right {
+  right: 14%;
+  bottom: 4px;
+  width: 158px;
+}
+
+.dashboard-capybara {
+  left: 50%;
+  bottom: 26px;
+  width: 260px;
+  transform: translateX(-50%);
+}
+
+.dashboard-sticker--falling {
+  right: 1.5%;
+  bottom: 4px;
+  width: 120px;
+}
+
+.content-grid {
+  display: block;
+  padding: 0;
+}
+
+.dashboard-group {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  align-items: start;
+  margin: 0 14px 10px;
+}
+
+.dashboard-group::before,
+.dashboard-group::after,
+#history::before,
+#history::after {
+  position: absolute;
+  z-index: 100;
+  display: block;
+  width: 64px;
+  aspect-ratio: 360 / 315;
+  content: "";
+  pointer-events: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.dashboard-group::before,
+#history::before {
+  top: -50px;
+  right: 18px;
+  background-image: url("layout-assets/2449591_cc4ff.gif");
+  transform: rotate(14deg);
+}
+
+.dashboard-group::after,
+#history::after {
+  bottom: -40px;
+  left: 12px;
+  background-image: url("layout-assets/2449591_cc4ff.gif");
+  transform: rotate(-13deg);
+}
+
+.calendar-composition::before {
+  top: -50px;
+  right: auto;
+  left: 17%;
+}
+
+.paystub-composition::after,
+.summary-composition::after {
+  right: 8%;
+  left: auto;
+}
+
+.summary-composition::before {
+  display: none;
+}
+
+.log-shift-composition::after,
+.audit-trends-composition::after {
+  display: none;
+}
+
+.audit-trends-composition::before {
+  top: 34%;
+  right: -42px;
+}
+
+#history {
+  position: relative;
+  z-index: auto;
+  margin-bottom: 10px;
+}
+
+.dashboard-group > *,
+.audit-left-column > *,
+.audit-right-column > * {
+  min-width: 0;
+}
+
+.dashboard-group > .window,
+.audit-left-column > .window,
+.audit-right-column > .window {
+  position: relative;
+  z-index: 2;
+}
+
+.dashboard-group .wide-panel {
+  width: auto;
+  margin: 0;
+}
+
+.log-shift-composition {
+  grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr);
+}
+
+.portrait-visual {
+  z-index: 1;
+  justify-self: center;
+  width: min(100%, 325px);
+  margin-block: -4px -8px;
+  transform: rotate(.35deg);
+}
+
+.calendar-composition {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.paystub-composition {
+  grid-template-columns: minmax(285px, 5fr) minmax(0, 7fr);
+  grid-template-rows: auto;
+  align-items: center;
+}
+
+.homer-visual {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  width: min(100%, 440px);
+  transform: rotate(-.45deg);
+}
+
+.paystub-layout {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.paystub-form {
+  grid-column: auto;
+}
+
+.paystub-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.audit-trends-composition {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.audit-left-column,
+.audit-right-column {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pink-cannabis-visual {
+  z-index: 1;
+  align-self: start;
+  justify-self: center;
+  width: 100%;
+  transform: rotate(-.35deg);
+}
+
+.trend-panel {
+  width: 100%;
+}
+
+.audit-left-column .simulator-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.audit-left-column .simulator-grid input {
+  width: 100%;
+  min-width: 0;
+}
+
+.audit-left-column #sim-rate-output {
+  display: block;
+  margin-top: 5px;
+}
+
+.glitter-hands-visual {
+  z-index: 1;
+  justify-self: center;
+  width: min(92%, 470px);
+  margin: 30px auto 0;
+  transform: rotate(.4deg);
+}
+
+.summary-composition {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.closing-leaf {
+  width: 150px;
+  margin: 0 auto 22px;
+}
+
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .dashboard-group,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .log-shift-composition,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .paystub-composition,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .audit-trends-composition,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .summary-composition {
+  margin-top: 14px;
+}
+
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .dashboard-group::before,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) .dashboard-group::after,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) #history::before,
+.app-shell[data-current-page]:not([data-current-page="dashboard"]) #history::after {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .log-shift-composition,
+  .audit-trends-composition,
+  .summary-composition {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .audit-left-column,
+  .audit-right-column {
+    display: contents;
+  }
+
+  .portrait-visual { width: min(78%, 325px); }
+  .homer-visual { width: min(78%, 350px); }
+  .pink-cannabis-visual { width: min(78%, 330px); }
+  .glitter-hands-visual {
+    width: min(78%, 340px);
+    margin-top: 14px;
+  }
+
+  .pink-cannabis-visual { order: 1; }
+  .trend-panel { order: 2; }
+  #simulator { order: 3; }
+  #audit { order: 4; }
+  .glitter-hands-visual { order: 5; }
+
+  .app-shell[data-current-page="audit"] #audit { order: 1; }
+  .app-shell[data-current-page="audit"] .pink-cannabis-visual { order: 2; }
+  .app-shell[data-current-page="trends"] .trend-panel { order: 1; }
+  .app-shell[data-current-page="trends"] #simulator { order: 2; }
+  .app-shell[data-current-page="trends"] .glitter-hands-visual { order: 3; }
+
+  .log-shift-composition::before,
+  .paystub-composition::after,
+  .audit-trends-composition::before,
+  .audit-trends-composition::after,
+  .summary-composition::before {
+    display: none;
+  }
+
+}
+
+@media (max-width: 700px) {
+  .paystub-composition {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .paystub-composition .homer-visual {
+    grid-column: auto;
+    grid-row: auto;
+    order: 2;
+    width: min(86%, 440px);
+  }
+
+  .paystub-panel {
+    grid-column: auto;
+    grid-row: auto;
+    order: 1;
+  }
+
+  .dashboard-transition {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px 14px;
+    min-height: 0;
+    margin: 0 7px 14px;
+    align-items: center;
+  }
+
+  .dashboard-sticker,
+  .dashboard-capybara {
+    position: static;
+    width: auto;
+    transform: none;
+  }
+
+  .dashboard-capybara {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+    width: min(62%, 220px);
+  }
+
+  .dashboard-sticker--leaf-shower,
+  .dashboard-sticker--green,
+  .dashboard-sticker--green-right,
+  .dashboard-sticker--falling {
+    grid-row: 2;
+    justify-self: center;
+    width: min(88%, 100px);
+  }
+
+  .dashboard-group {
+    gap: 8px;
+    margin: 0 7px 8px;
+  }
+
+  .portrait-visual { width: min(86%, 325px); }
+  .homer-visual { width: min(86%, 350px); }
+  .pink-cannabis-visual { width: min(86%, 330px); }
+  .glitter-hands-visual { width: min(86%, 340px); }
+
+  .paystub-upload { order: 1; }
+  .paystub-form { order: 2; grid-column: auto; }
+
+  .closing-leaf {
+    width: 124px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-lead .toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(132px, auto);
+    gap: 7px 10px;
+    padding: 10px;
+  }
+
+  .dashboard-lead .toolbar label {
+    align-self: center;
+  }
+
+  .dashboard-lead .toolbar select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-lead .toolbar span {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-transition {
+    gap: 6px 10px;
+  }
+
+  .portrait-visual { width: min(90%, 325px); }
+  .homer-visual { width: min(90%, 350px); }
+  .pink-cannabis-visual { width: min(90%, 330px); }
+  .glitter-hands-visual { width: min(90%, 340px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layout-visual img {
+    animation: none;
+  }
+}

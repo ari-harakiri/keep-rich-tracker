@@ -115,15 +115,12 @@ const PAGE_NAMES=['dashboard','calendar','log-shift','paystubs','pay-periods','t
 function showPage(requested,updateAddress=true){
   const page=PAGE_NAMES.includes(requested)?requested:'dashboard';
   const grid=document.querySelector('.content-grid');
-  const shiftMedia=$('#shift-media');
-  const historySection=$('#history');
-  if(page==='log-shift')grid.before(shiftMedia);
-  else historySection.before(shiftMedia);
+  document.querySelector('.app-shell').dataset.currentPage=page;
   document.querySelectorAll('[data-page]').forEach(section=>{
     const sectionPages=section.dataset.page.split(/\s+/);
     section.hidden=page==='dashboard'?section.hasAttribute('data-dashboard-hidden'):!sectionPages.includes(page);
   });
-  grid.hidden=!['dashboard','log-shift','audit'].includes(page);grid.classList.toggle('page-mode',page!=='dashboard'&&!grid.hidden);
+  grid.classList.toggle('page-mode',page!=='dashboard');
   document.querySelectorAll('[data-page-target]').forEach(button=>{
     const active=button.dataset.pageTarget===page;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false');
   });

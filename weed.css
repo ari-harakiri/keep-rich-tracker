@@ -1,0 +1,163 @@
+:root {
+  --forest: #124d2b;
+  --leaf: #219653;
+  --grass: #62d843;
+  --lime: #d7ff62;
+  --sage: #e3f7c5;
+  --cream: #fffbef;
+  --gold: #ffd84f;
+  --lavender: #c7b4dc;
+}
+
+body,
+.desktop {
+  background-color: #31b94a;
+  color: var(--forest);
+}
+
+.desktop {
+  background-image:
+    radial-gradient(circle at 10px 10px, rgba(215,255,98,.24) 0 2px, transparent 2px),
+    linear-gradient(160deg, #50d95f 0%, #22a947 72%);
+  background-size: 22px 22px, 100% 100%;
+}
+
+.window {
+  background: var(--cream);
+  border-color: var(--forest);
+  box-shadow: 6px 6px 0 #0b2818;
+}
+
+.titlebar {
+  color: var(--forest);
+  background: linear-gradient(90deg, var(--sage), var(--lavender));
+  border-bottom-color: var(--forest);
+}
+
+.window-buttons span {
+  color: var(--forest);
+  background: var(--cream);
+  border-color: var(--forest);
+}
+
+.menubar {
+  background: #f5f6df;
+  border-bottom-color: var(--forest);
+}
+
+.menubar button:hover,
+.menubar button:focus-visible,
+.menubar button.active {
+  color: var(--forest);
+  background: var(--lime);
+  box-shadow: inset 0 -3px 0 var(--grass);
+}
+
+.app-intro {
+  background: linear-gradient(145deg, var(--cream) 0 72%, #ecf1dc 72% 100%);
+  border-color: var(--forest);
+}
+
+.app-intro .eyebrow { color: var(--leaf); }
+
+.sparkle-title {
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--forest), 8px 1px 0 rgba(255,255,255,.65);
+}
+
+.kris-hero {
+  background: var(--leaf);
+  border-color: var(--forest);
+  box-shadow: 6px 6px 0 var(--lime);
+}
+
+.kris-hero img {
+  width: min(100%, 760px);
+}
+
+.kris-hero figcaption {
+  color: var(--forest);
+  background: var(--lime);
+  border-color: var(--forest);
+  box-shadow: 3px 3px 0 var(--grass);
+}
+
+.toolbar {
+  background: var(--sage);
+  border-color: var(--forest);
+}
+
+.toolbar input,
+.toolbar button,
+.filters input,
+.filters select,
+.filters button,
+.simulator-grid input,
+.shift-form input,
+.shift-form textarea {
+  background: #fffef7;
+  border-color: var(--forest);
+}
+
+.toolbar button,
+.filters button,
+.primary-button {
+  color: var(--forest);
+  background: var(--lime);
+  border-color: var(--forest);
+  box-shadow: 3px 3px 0 var(--grass);
+}
+
+.stat-card {
+  background: var(--cream);
+  border-color: var(--forest);
+  box-shadow: inset 0 -5px 0 var(--grass);
+}
+
+.stat-card.pink {
+  background: var(--cream);
+  box-shadow: inset 0 -5px 0 var(--gold);
+}
+
+.mini-title {
+  color: var(--cream);
+  background: var(--leaf);
+  border-bottom-color: var(--forest);
+}
+
+.audit-rate,
+.sim-result {
+  color: var(--lime);
+  background: var(--forest);
+  border-color: var(--forest);
+}
+
+.audit-rate strong,
+.sim-result strong { color: var(--lime); }
+
+.audit-list,
+.chart { background: var(--cream); border-color: var(--forest); }
+
+th { color: var(--cream); background: var(--leaf); }
+tbody tr:nth-child(even) { background: #eef3df; }
+.bar.sales { background: var(--grass); }
+.bar.tips { background: #ff66c7; }
+
+.taskbar {
+  color: var(--cream);
+  background: var(--forest);
+  border-top-color: var(--lime);
+}
+
+#start-button {
+  color: var(--forest);
+  background: var(--lime);
+  border-color: var(--forest);
+  box-shadow: 2px 2px 0 var(--grass);
+}
+
+.taskbar-app,
+#clock {
+  color: var(--forest);
+  background: var(--sage);
+  border-color: var(--forest);
+}

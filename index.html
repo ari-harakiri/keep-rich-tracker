@@ -2,69 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#008080">
-<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=45"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=34"><link rel="stylesheet" href="cloud.css?v=24">
+<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=45"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=34"><link rel="stylesheet" href="cloud.css?v=24"><link rel="stylesheet" href="layout-rebuild.css?v=25">
 </head>
-<body class="auth-locked"><section id="auth-gate" class="auth-gate" aria-labelledby="auth-heading"><div class="auth-window"><header class="auth-titlebar"><span>✿ KEEP_RICH.EXE · SECURE SIGN ON</span></header><div class="auth-layout"><div class="auth-art"><img src="keep-rich-stay-slay.png" alt="Kris Jenner against a blue sky and green hills"></div><div class="auth-form-wrap"><p class="auth-kicker">YOUR MONEY · YOUR ACCOUNT</p><h2 id="auth-heading">Welcome back, gorgeous.</h2><form id="auth-form" class="auth-form"><input id="auth-mode" type="hidden" value="signin"><label>Email<input id="auth-email" type="email" autocomplete="email" required></label><label>Password<input id="auth-password" type="password" autocomplete="current-password" minlength="6" required></label><button id="auth-submit" type="submit">Sign in</button></form><div class="auth-links"><button id="auth-toggle" type="button">New here? Create an account</button><button id="auth-forgot" type="button">Reset password</button></div><p id="auth-status" class="auth-status" aria-live="polite">Sign in to see the same tracker on your computer and phone.</p></div></div></div></section><main class="desktop"><section class="window app-shell" aria-labelledby="app-title">
+<body class="auth-locked"><section id="auth-gate" class="auth-gate" aria-labelledby="auth-heading"><div class="auth-window"><header class="auth-titlebar"><span>✿ KEEP_RICH.EXE · SECURE SIGN ON</span></header><div class="auth-layout"><div class="auth-art"><img src="keep-rich-stay-slay-leaf-glitter.png" alt="Kris Jenner against a blue sky and green hills with a glittering cannabis leaf hand"></div><div class="auth-form-wrap"><p class="auth-kicker">YOUR MONEY · YOUR ACCOUNT</p><h2 id="auth-heading">Welcome back, gorgeous.</h2><form id="auth-form" class="auth-form"><input id="auth-mode" type="hidden" value="signin"><label>Email<input id="auth-email" type="email" autocomplete="email" required></label><label>Password<input id="auth-password" type="password" autocomplete="current-password" minlength="6" required></label><button id="auth-submit" type="submit">Sign in</button></form><div class="auth-links"><button id="auth-toggle" type="button">New here? Create an account</button><button id="auth-forgot" type="button">Reset password</button></div><p id="auth-status" class="auth-status" aria-live="polite">Sign in to see the same tracker on your computer and phone.</p></div></div></div></section><main class="desktop"><section class="window app-shell" aria-labelledby="app-title">
   <header class="titlebar"><div class="titlebar__text"><span aria-hidden="true">✿</span><h1 id="app-title">KEEP_RICH.EXE</h1></div></header>
   <nav class="menubar" aria-label="Application pages"><button type="button" class="active" data-page-target="dashboard">Dashboard</button><button type="button" data-page-target="calendar">Calendar</button><button type="button" data-page-target="log-shift">Log Shift</button><button type="button" data-page-target="paystubs">Paystubs</button><button type="button" data-page-target="pay-periods">Pay Dates</button><button type="button" data-page-target="trends">Trends</button><button type="button" data-page-target="audit">Audit</button><button type="button" data-page-target="account">Account</button></nav>
-  <div class="app-intro page-section" data-page="dashboard"><div><p class="eyebrow">SHIFT DATA CONTROL CENTER</p><h2 class="sparkle-title">Keep Rich, Stay Slay</h2><p>Tips · Sales · Commission · Pay dates</p></div></div>
-  <figure class="kris-hero page-section" data-page="dashboard"><img src="keep-rich-stay-slay.png" alt="Kris Jenner against a blue sky and green hills"></figure>
-  <div class="toolbar page-section" data-page="dashboard"><label for="dashboard-pay-date">Dashboard pay date</label><select id="dashboard-pay-date"><option value="all">All pay dates</option></select><span id="schedule-note">Grouped by the paycheck date saved on each shift</span></div>
-  <section class="dashboard page-section" data-page="dashboard" id="dashboard" aria-label="Dashboard summary">
-    <article class="stat-card"><span>Selected paycheck sales</span><strong id="stat-sales">$0.00</strong><small id="period-label">No shifts yet</small></article>
-    <article class="stat-card"><span>Tips earned</span><strong id="stat-tips">$0.00</strong><small id="tip-rate">0.0% of sales</small></article>
-    <article class="stat-card"><span>Commission paid</span><strong id="stat-commission">$0.00</strong><small id="commission-delta">Audit pending</small></article>
-    <article class="stat-card pink"><span>Total earnings</span><strong id="stat-earnings">—</strong><small>logged shifts + paid commission</small></article>
-    <article class="stat-card hourly"><span>Average hourly</span><strong id="stat-hourly">—</strong><small>including tips + commission</small></article>
-  </section>
-  <div class="content-grid">
-    <section class="window inset page-section" data-page="log-shift" id="entry" aria-labelledby="entry-title"><header class="mini-title"><h3 id="entry-title">New Shift Entry</h3></header><form id="shift-form" class="shift-form">
-      <label>Shift date<input id="date" type="date" required></label><label>Pay date<input id="pay-date" type="date" required></label>
-      <label>Hours<input id="hours" type="number" min="0" step="0.25" placeholder="Blank if unknown"></label><label>Hourly wage ($)<input id="hourly-wage" type="number" min="0" step="0.01" placeholder="Enter your current rate"></label>
-      <label>Tips ($)<input id="tips" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Sales ($)<input id="sales" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label>
-      <label>Transactions<input id="transactions" type="number" min="0" step="1" placeholder="Blank if unknown"></label><label>Items sold<input id="items" type="number" min="0" step="1" placeholder="Blank if unknown"></label>
-      <label class="notes-field">Notes · optional<textarea id="notes" rows="3" placeholder="Anything worth remembering about this shift"></textarea></label>
-      <div class="shift-actions"><button class="primary-button" id="shift-submit" type="submit">Save shift</button><button id="cancel-edit" type="button" hidden>Cancel edit</button></div></form><p class="status" id="entry-status" aria-live="polite">Ready for your first shift.</p></section>
-    <section class="window inset page-section" data-page="audit" id="audit" aria-labelledby="audit-title"><header class="mini-title"><h3 id="audit-title">Commission Audit</h3></header><div class="audit-body"><div class="audit-rate"><span>EXPECTED RATE</span><strong>1.5%</strong></div><div class="audit-list"><div><span>Expected from shift sales</span><strong id="audit-expected">—</strong></div><div><span>Paid on saved paystubs</span><strong id="audit-paid">—</strong></div><div class="audit-result"><span>Difference</span><strong id="audit-difference">—</strong></div></div><p id="audit-message">Save a paystub to compare expected and paid commission.</p><p class="audit-source-note">Actual commission is stored with paystubs, never individual shifts.</p><div class="table-scroll audit-table"><table><thead><tr><th>Pay date</th><th>Shift sales</th><th>Expected 1.5%</th><th>Paid</th><th>Difference</th></tr></thead><tbody id="audit-period-body"></tbody></table></div></div></section>
-  </div>
-  <figure class="media-interlude page-section" data-page="calendar"><img src="pink-cannabis.gif" alt="Pink glittering cannabis flowers"></figure>
-  <section class="window inset wide-panel calendar-panel page-section" data-page="calendar" id="calendar-page" aria-labelledby="calendar-title">
-    <header class="mini-title badge-row"><h3 id="calendar-title">Earnings Calendar</h3><span class="calendar-badge">WAGE + TIPS</span></header>
-    <div class="calendar-toolbar"><button type="button" id="calendar-prev" aria-label="Previous month">◀</button><div><strong id="calendar-month"></strong><span id="calendar-subtitle"></span></div><button type="button" id="calendar-today">Today</button><button type="button" id="calendar-next" aria-label="Next month">▶</button></div>
-    <div class="calendar-summary" aria-label="Monthly summary"><article><span>Month earnings</span><strong id="calendar-total">—</strong></article><article><span>Hours logged</span><strong id="calendar-hours">—</strong></article><article><span>Average hourly</span><strong id="calendar-hourly">—</strong></article></div>
-    <div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-    <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="calendar-month"></div>
-    <section class="calendar-detail" aria-live="polite"><header><div><span>SELECTED DAY</span><h4 id="calendar-detail-date">Choose a day</h4></div><button type="button" id="calendar-log-day">Log this day</button></header><div id="calendar-detail-body"><p>Select a date to see its shifts.</p></div></section>
-  </section>
-  <figure class="media-interlude page-section" data-page="paystubs"><img src="pixel-leaf-hand.gif" alt="A pixelated cannabis leaf held by a glossy hand"></figure>
-  <section class="window inset wide-panel paystub-panel page-section" data-page="paystubs" id="paystub-import" aria-labelledby="paystub-title"><header class="mini-title badge-row"><h3 id="paystub-title">Paystub Import</h3><span class="local-badge">LOCAL PDF</span></header>
-    <div class="paystub-layout">
-      <div class="paystub-upload">
-        <label class="file-drop" for="paystub-file"><span class="file-drop__icon" aria-hidden="true">📄</span><strong>Choose a paystub PDF</strong><small>Click to browse · PDF only</small></label>
-        <input id="paystub-file" type="file" accept="application/pdf,.pdf">
-        <p class="privacy-note"><span aria-hidden="true">🔒</span> Read in this browser. Your PDF is not uploaded or stored.</p>
-        <p class="status" id="paystub-status" aria-live="polite">Ready to scan a paystub.</p>
-      </div>
-      <form id="paystub-form" class="paystub-form" hidden>
-        <label>Pay date<input id="stub-pay-date" type="date" required></label>
-        <label>Period start<input id="stub-period-start" type="date"></label>
-        <label>Period end<input id="stub-period-end" type="date"></label>
-        <label>Hours<input id="stub-hours" type="number" min="0" step="0.01" placeholder="Not found"></label>
-        <label>Commission ($)<input id="stub-commission" type="number" min="0" step="0.01" placeholder="Not found"></label>
-        <label>Gross pay ($)<input id="stub-gross" type="number" min="0" step="0.01" placeholder="Not found"></label>
-        <label>Net pay ($)<input id="stub-net" type="number" min="0" step="0.01" placeholder="Not found"></label>
-        <label>Source file<input id="stub-source" type="text" readonly></label>
-        <div class="paystub-actions"><button class="primary-button" type="submit">Save paystub</button><button id="use-stub-date" type="button">Use date for shift</button></div>
-      </form>
+  <section class="dashboard-lead page-section" data-page="dashboard" aria-label="Dashboard overview">
+    <div class="app-intro"><div><p class="eyebrow">SHIFT DATA CONTROL CENTER</p><h2 class="sparkle-title">Keep Rich, Stay Slay</h2><p>Tips · Sales · Commission · Pay dates</p></div></div>
+    <figure class="kris-hero"><img src="keep-rich-stay-slay-leaf-glitter.png" alt="Kris Jenner against a blue sky and green hills with a glittering cannabis leaf hand"></figure>
+    <div class="toolbar"><label for="dashboard-pay-date">Dashboard pay date</label><select id="dashboard-pay-date"><option value="all">All pay dates</option></select><span id="schedule-note">Grouped by the paycheck date saved on each shift</span></div>
+    <section class="dashboard" id="dashboard" aria-label="Dashboard summary">
+      <article class="stat-card"><span>Selected paycheck sales</span><strong id="stat-sales">$0.00</strong><small id="period-label">No shifts yet</small></article>
+      <article class="stat-card"><span>Tips earned</span><strong id="stat-tips">$0.00</strong><small id="tip-rate">0.0% of sales</small></article>
+      <article class="stat-card"><span>Commission paid</span><strong id="stat-commission">$0.00</strong><small id="commission-delta">Audit pending</small></article>
+      <article class="stat-card pink"><span>Total earnings</span><strong id="stat-earnings">—</strong><small>logged shifts + paid commission</small></article>
+      <article class="stat-card hourly"><span>Average hourly</span><strong id="stat-hourly">—</strong><small>including tips + commission</small></article>
+    </section>
+    <div class="dashboard-transition" aria-label="Dashboard decoration">
+      <figure class="layout-visual dashboard-sticker dashboard-sticker--leaf-shower"><img src="layout-assets/leaf-shower-grinder.gif" alt="Animated falling cannabis leaves and purple grinder"></figure>
+      <figure class="layout-visual dashboard-sticker dashboard-sticker--green"><img src="layout-assets/2449591_cc4ff.gif" alt="Green glitter cannabis leaf"></figure>
+      <figure class="layout-visual dashboard-capybara"><img src="layout-assets/cigar-billa.gif" alt="Animated capybara smoking"></figure>
+      <figure class="layout-visual dashboard-sticker dashboard-sticker--green-right"><img src="layout-assets/2449591_cc4ff.gif" alt="Green glitter cannabis leaf"></figure>
+      <figure class="layout-visual dashboard-sticker dashboard-sticker--falling"><img src="layout-assets/weed-cosecha-libre.gif" alt="Animated falling cannabis leaves"></figure>
     </div>
-    <div class="table-scroll paystub-history"><table><thead><tr><th>Pay date</th><th>Pay period</th><th>Hours</th><th>Commission</th><th>Gross pay</th><th>Net pay</th><th>Source</th><th></th></tr></thead><tbody id="paystub-body"></tbody></table></div><p class="empty-state" id="paystub-empty">No paystubs saved yet.</p>
   </section>
-  <figure class="media-interlude page-section" data-page="pay-periods trends"><img src="homer-leaf.gif" alt="Homer Simpson standing in front of cannabis leaves"></figure>
-  <section class="window inset wide-panel page-section" data-page="pay-periods" aria-labelledby="summary-title"><header class="mini-title"><h3 id="summary-title">Pay Date Summary</h3></header><div class="table-scroll"><table><thead><tr><th>Pay date</th><th>Hours</th><th>Sales</th><th>Tips</th><th>Expected 1.5%</th></tr></thead><tbody id="summary-body"></tbody></table></div></section>
-  <section class="window inset wide-panel page-section" data-page="trends" aria-labelledby="trend-title"><header class="mini-title"><h3 id="trend-title">Sales + Tips Trend</h3></header><div id="chart" class="chart" role="img" aria-label="Sales and tips by shift"></div><div class="chart-legend"><span><i class="sales-key"></i>Sales</span><span><i class="tips-key"></i>Tips</span></div></section>
-  <section class="window inset wide-panel page-section" data-page="trends" id="simulator" aria-labelledby="sim-title"><header class="mini-title"><h3 id="sim-title">Commission Simulator</h3></header><div class="simulator-grid"><label>Sales to test ($)<input id="sim-sales" type="number" min="0" step="0.01" value="10000"></label><label>Alternative commission rate<input id="sim-rate" type="range" min="0" max="5" step="0.1" value="1.5"><output id="sim-rate-output">1.5%</output></label><div class="sim-result"><span>Estimated commission</span><strong id="sim-result">$150.00</strong><small id="sim-compare">Same as your expected rate</small></div></div></section>
-  <figure class="media-interlude media-interlude--lower-crop page-section" data-page="log-shift" id="shift-media"><img src="glitter-weed-hands.gif" alt="Glittering cannabis held in two illustrated hands"></figure>
+
+  <div class="content-grid page-section" data-page="log-shift">
+    <section class="dashboard-group log-shift-composition" aria-label="Log Shift">
+      <section class="window inset" id="entry" aria-labelledby="entry-title"><header class="mini-title"><h3 id="entry-title">New Shift Entry</h3></header><form id="shift-form" class="shift-form">
+        <label>Shift date<input id="date" type="date" required></label><label>Pay date<input id="pay-date" type="date" required></label>
+        <label>Hours<input id="hours" type="number" min="0" step="0.25" placeholder="Blank if unknown"></label><label>Hourly wage ($)<input id="hourly-wage" type="number" min="0" step="0.01" placeholder="Enter your current rate"></label>
+        <label>Tips ($)<input id="tips" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Sales ($)<input id="sales" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label>
+        <label>Transactions<input id="transactions" type="number" min="0" step="1" placeholder="Blank if unknown"></label><label>Items sold<input id="items" type="number" min="0" step="1" placeholder="Blank if unknown"></label>
+        <label class="notes-field">Notes · optional<textarea id="notes" rows="3" placeholder="Anything worth remembering about this shift"></textarea></label>
+        <div class="shift-actions"><button class="primary-button" id="shift-submit" type="submit">Save shift</button><button id="cancel-edit" type="button" hidden>Cancel edit</button></div></form><p class="status" id="entry-status" aria-live="polite">Ready for your first shift.</p></section>
+      <figure class="layout-visual portrait-visual"><img src="layout-assets/tumblr_mrssxi3tZe1qbam3to1_1280.gif" alt="Animated portrait cannabis artwork"></figure>
+    </section>
+  </div>
+
+  <section class="dashboard-group calendar-composition page-section" data-page="calendar" aria-label="Calendar">
+    <section class="window inset wide-panel calendar-panel" id="calendar-page" aria-labelledby="calendar-title">
+      <header class="mini-title badge-row"><h3 id="calendar-title">Earnings Calendar</h3><span class="calendar-badge">WAGE + TIPS</span></header>
+      <div class="calendar-toolbar"><button type="button" id="calendar-prev" aria-label="Previous month">◀</button><div><strong id="calendar-month"></strong><span id="calendar-subtitle"></span></div><button type="button" id="calendar-today">Today</button><button type="button" id="calendar-next" aria-label="Next month">▶</button></div>
+      <div class="calendar-summary" aria-label="Monthly summary"><article><span>Month earnings</span><strong id="calendar-total">—</strong></article><article><span>Hours logged</span><strong id="calendar-hours">—</strong></article><article><span>Average hourly</span><strong id="calendar-hourly">—</strong></article></div>
+      <div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="calendar-month"></div>
+      <section class="calendar-detail" aria-live="polite"><header><div><span>SELECTED DAY</span><h4 id="calendar-detail-date">Choose a day</h4></div><button type="button" id="calendar-log-day">Log this day</button></header><div id="calendar-detail-body"><p>Select a date to see its shifts.</p></div></section>
+    </section>
+  </section>
+
+  <section class="dashboard-group paystub-composition page-section" data-page="paystubs" aria-label="Paystubs">
+    <figure class="layout-visual homer-visual"><img src="homer-leaf.gif" alt="Homer Simpson standing in front of cannabis leaves"></figure>
+    <section class="window inset wide-panel paystub-panel" id="paystub-import" aria-labelledby="paystub-title"><header class="mini-title badge-row"><h3 id="paystub-title">Paystub Import</h3><span class="local-badge">LOCAL PDF</span></header>
+      <div class="paystub-layout">
+        <div class="paystub-upload">
+          <label class="file-drop" for="paystub-file"><span class="file-drop__icon" aria-hidden="true">📄</span><strong>Choose a paystub PDF</strong><small>Click to browse · PDF only</small></label>
+          <input id="paystub-file" type="file" accept="application/pdf,.pdf">
+          <p class="privacy-note"><span aria-hidden="true">🔒</span> Read in this browser. Your PDF is not uploaded or stored.</p>
+          <p class="status" id="paystub-status" aria-live="polite">Ready to scan a paystub.</p>
+        </div>
+        <form id="paystub-form" class="paystub-form" hidden>
+          <label>Pay date<input id="stub-pay-date" type="date" required></label>
+          <label>Period start<input id="stub-period-start" type="date"></label>
+          <label>Period end<input id="stub-period-end" type="date"></label>
+          <label>Hours<input id="stub-hours" type="number" min="0" step="0.01" placeholder="Not found"></label>
+          <label>Commission ($)<input id="stub-commission" type="number" min="0" step="0.01" placeholder="Not found"></label>
+          <label>Gross pay ($)<input id="stub-gross" type="number" min="0" step="0.01" placeholder="Not found"></label>
+          <label>Net pay ($)<input id="stub-net" type="number" min="0" step="0.01" placeholder="Not found"></label>
+          <label>Source file<input id="stub-source" type="text" readonly></label>
+          <div class="paystub-actions"><button class="primary-button" type="submit">Save paystub</button><button id="use-stub-date" type="button">Use date for shift</button></div>
+        </form>
+      </div>
+      <div class="table-scroll paystub-history"><table><thead><tr><th>Pay date</th><th>Pay period</th><th>Hours</th><th>Commission</th><th>Gross pay</th><th>Net pay</th><th>Source</th><th></th></tr></thead><tbody id="paystub-body"></tbody></table></div><p class="empty-state" id="paystub-empty">No paystubs saved yet.</p>
+    </section>
+  </section>
+
+  <section class="dashboard-group summary-composition page-section" data-page="pay-periods" aria-label="Pay Date Summary">
+    <section class="window inset wide-panel" aria-labelledby="summary-title"><header class="mini-title"><h3 id="summary-title">Pay Date Summary</h3></header><div class="table-scroll"><table><thead><tr><th>Pay date</th><th>Hours</th><th>Sales</th><th>Tips</th><th>Expected 1.5%</th></tr></thead><tbody id="summary-body"></tbody></table></div></section>
+  </section>
+
+  <section class="dashboard-group audit-trends-composition" aria-label="Commission audit and trends">
+    <div class="audit-left-column">
+      <figure class="layout-visual pink-cannabis-visual page-section" data-page="audit"><img src="pink-cannabis.gif" alt="Pink glittering cannabis flowers"></figure>
+      <section class="window inset wide-panel trend-panel page-section" data-page="trends" aria-labelledby="trend-title"><header class="mini-title"><h3 id="trend-title">Sales + Tips Trend</h3></header><div id="chart" class="chart" role="img" aria-label="Sales and tips by shift"></div><div class="chart-legend"><span><i class="sales-key"></i>Sales</span><span><i class="tips-key"></i>Tips</span></div></section>
+      <section class="window inset wide-panel page-section" data-page="trends" id="simulator" aria-labelledby="sim-title"><header class="mini-title"><h3 id="sim-title">Commission Simulator</h3></header><div class="simulator-grid"><label>Sales to test ($)<input id="sim-sales" type="number" min="0" step="0.01" value="10000"></label><label>Alternative commission rate<input id="sim-rate" type="range" min="0" max="5" step="0.1" value="1.5"><output id="sim-rate-output">1.5%</output></label><div class="sim-result"><span>Estimated commission</span><strong id="sim-result">$150.00</strong><small id="sim-compare">Same as your expected rate</small></div></div></section>
+    </div>
+    <div class="audit-right-column">
+      <section class="window inset page-section" data-page="audit" id="audit" aria-labelledby="audit-title"><header class="mini-title"><h3 id="audit-title">Commission Audit</h3></header><div class="audit-body"><div class="audit-rate"><span>EXPECTED RATE</span><strong>1.5%</strong></div><div class="audit-list"><div><span>Expected from shift sales</span><strong id="audit-expected">—</strong></div><div><span>Paid on saved paystubs</span><strong id="audit-paid">—</strong></div><div class="audit-result"><span>Difference</span><strong id="audit-difference">—</strong></div></div><p id="audit-message">Save a paystub to compare expected and paid commission.</p><p class="audit-source-note">Actual commission is stored with paystubs, never individual shifts.</p><div class="table-scroll audit-table"><table><thead><tr><th>Pay date</th><th>Shift sales</th><th>Expected 1.5%</th><th>Paid</th><th>Difference</th></tr></thead><tbody id="audit-period-body"></tbody></table></div></div></section>
+      <figure class="layout-visual glitter-hands-visual page-section" data-page="trends"><img src="glitter-weed-hands.gif" alt="Glittering cannabis held in two illustrated hands"></figure>
+    </div>
+  </section>
+
   <section class="window inset wide-panel page-section" data-page="log-shift" id="history" aria-labelledby="history-title"><header class="mini-title"><h3 id="history-title">Shift History</h3></header><div class="filters"><label>Search<input id="search" type="search" placeholder="Search dates, numbers, or notes"></label><label>Pay date<select id="period-filter"><option value="all">All pay dates</option></select></label><button type="button" id="clear-all">Clear all data</button></div><div class="table-scroll"><table><thead><tr><th>Shift date</th><th>Pay date</th><th>Hours</th><th>Hourly wage</th><th>Tips</th><th>Daily earnings</th><th>Sales</th><th>Txns</th><th>Items</th><th>Avg order</th><th>Expected 1.5%</th><th>Notes</th><th></th></tr></thead><tbody id="history-body"></tbody></table></div><p class="empty-state" id="empty-state">No shifts match these filters.</p></section>
+
+  <figure class="layout-visual closing-leaf page-section" data-page="dashboard"><img src="layout-assets/tumblr_nfkxyqUPEl1u1bhk9o1_500.gif" alt="Silver shimmering pixel cannabis leaf"></figure>
   <section class="window inset wide-panel account-panel page-section" data-page="account" data-dashboard-hidden aria-labelledby="account-title"><header class="mini-title badge-row"><h3 id="account-title">Account &amp; Sync</h3><span class="cloud-badge">AUTO-SYNC</span></header><div class="account-layout"><div class="account-icon" aria-hidden="true"><span>🌐</span><strong>KEEP_RICH ONLINE</strong></div><div class="account-copy"><h4>Your tracker follows you.</h4><dl class="cloud-facts"><div><dt>Account</dt><dd id="account-email">—</dd></div><div><dt>Status</dt><dd id="cloud-state" data-state="connecting">Connecting…</dd></div><div><dt>Last sync</dt><dd id="cloud-last">Not yet</dd></div></dl><p class="status" id="cloud-detail" aria-live="polite">Checking your account…</p><div class="account-actions"><button type="button" id="cloud-sync-now">Sync now</button><button type="button" id="account-signout">Sign out</button></div></div></div><details class="emergency-backup"><summary>Emergency backup options</summary><p>You normally do not need these. They create or restore a portable copy if you ever want one.</p><div class="emergency-actions"><button type="button" id="cloud-download">Download a copy</button><button type="button" id="cloud-restore">Restore a copy</button><input id="cloud-import" type="file" accept="application/json,.json" hidden></div></details></section>
   <dialog id="note-dialog" class="note-dialog" aria-labelledby="note-dialog-title">
     <div class="note-dialog__window">
@@ -76,7 +107,7 @@
       <footer class="note-dialog__actions"><button type="button" id="close-note-bottom">Close</button></footer>
     </div>
   </dialog>
-</section></main><script src="cloud.js?v=25"></script><script src="app.js?v=38"></script><script>
+</section></main><script src="cloud.js?v=25"></script><script src="app.js?v=40"></script><script>
 window.KeepRichPdfReaderReady = false;
 const reportPdfReaderError = detail => {
   const status = document.querySelector('#paystub-status');
