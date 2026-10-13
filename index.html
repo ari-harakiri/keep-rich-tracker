@@ -109,26 +109,28 @@
   </dialog>
 </section></main><script src="cloud.js?v=25"></script><script src="app.js?v=40"></script><script>
 window.KeepRichPdfReaderReady = false;
+window.KeepRichPendingPaystubFile = null;
 const reportPdfReaderError = detail => {
   const status = document.querySelector('#paystub-status');
   status.dataset.readerError = String(detail || 'Unknown PDF reader error');
   status.textContent = 'The PDF reader could not start on this browser. Refresh the page and try again.';
 };
 window.addEventListener('error', event => {
-  if (/pdf|paystub/i.test(event.filename || event.message || '')) reportPdfReaderError(event.message);
+  const source = `${event.filename || ''} ${event.message || ''}`;
+  if (/pdf(?:\.min|\.worker)?\.mjs|paystub\.mjs/i.test(source)) reportPdfReaderError(event.message);
 });
 window.addEventListener('unhandledrejection', event => {
-  reportPdfReaderError(event.reason?.message || event.reason);
+  const detail = String(event.reason?.stack || event.reason?.message || event.reason || '');
+  if (/pdf(?:\.min|\.worker)?\.mjs|paystub\.mjs/i.test(detail)) reportPdfReaderError(detail);
 });
 document.querySelector('#paystub-file').addEventListener('change', event => {
   const selectedFile = event.target.files && event.target.files[0];
   if (!selectedFile) return;
+  window.KeepRichPendingPaystubFile = selectedFile;
   const status = document.querySelector('#paystub-status');
-  status.textContent = `Selected ${selectedFile.name}. Starting the PDF reader…`;
-  window.setTimeout(() => {
-    if (!window.KeepRichPdfReaderReady) {
-      reportPdfReaderError('PDF module did not finish loading');
-    }
-  }, 1500);
+  delete status.dataset.readerError;
+  if (!window.KeepRichPdfReaderReady) {
+    status.textContent = `Selected ${selectedFile.name}. Waiting for the PDF reader…`;
+  }
 });
-</script><script type="module" src="paystub.mjs?v=28"></script></body></html>
+</script><script type="module" src="paystub.mjs?v=29"></script></body></html>
