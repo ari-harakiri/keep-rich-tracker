@@ -11,4 +11,7 @@ const used = new Set([...scripts.matchAll(/\$\('#([A-Za-z0-9_-]+)'\)/g)].map(mat
 const missing = [...used].filter(id => !ids.has(id));
 
 if (missing.length) throw new Error(`Missing DOM ids: ${missing.join(', ')}`);
+if (!/<input id="hours"[^>]*step="0\.01"/.test(html)) {
+  throw new Error('Main Hours input must accept hundredths.');
+}
 console.log(`DOM contract passed: ${used.size} referenced ids found`);
