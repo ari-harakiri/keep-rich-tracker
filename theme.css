@@ -119,6 +119,27 @@ body,
   box-shadow: inset 0 -5px 0 #ff66c7;
 }
 
+.dashboard .stat-card:nth-child(1) { background: #c9f4ff; }
+.dashboard .stat-card:nth-child(2) { background: #ffd6f2; }
+.dashboard .stat-card:nth-child(3) { background: #fff6a8; }
+.dashboard .stat-card:nth-child(4) { background: #ded2ff; }
+.dashboard .stat-card:nth-child(5) { background: #c9ffd8; }
+
+.reconciliation-status {
+  padding: 4px 7px;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  background: #fff6a8;
+  color: #111;
+  font: 700 11px "Courier New", monospace;
+  white-space: nowrap;
+}
+
+.reconciliation-status.verified { background: #baf5ae; }
+.reconciliation-status.difference { background: #ffc2d1; }
+.reconciliation-status.incomplete,
+.reconciliation-status.provisional { background: #fff6a8; }
+
 .poster-panel {
   border: 3px solid #101c4c;
   box-shadow: 6px 6px 0 #ff66c7;
@@ -167,6 +188,12 @@ th {
 
 .bar.sales { background: #50bee3; }
 .bar.tips { background: #ff66c7; }
+.bar.wages { background: #78d6c8; }
+.bar.commission { background: #ffe85c; }
+.wages-key { background: #78d6c8; }
+.commission-key { background: #ffe85c; }
+.chart-group { min-width: 88px; }
+.chart-legend { flex-wrap: wrap; row-gap: 6px; }
 
 .taskbar {
   min-height: 0;

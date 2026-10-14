@@ -1,6 +1,4 @@
-import * as pdfjsLib from './pdf.min.mjs';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('./pdf.worker.min.mjs', import.meta.url).href;
+import { extractText } from './paystub-reader-core.mjs?v=31';
 
 const STORAGE_KEY = 'keepRichPaystubsV1';
 const $ = selector => document.querySelector(selector);
@@ -87,43 +85,6 @@ function parsePaystub(rawText) {
   };
 }
 
-function readFileBuffer(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => resolve(reader.result), { once: true });
-    reader.addEventListener('error', () => reject(reader.error || new Error('The selected PDF could not be read.')), { once: true });
-    reader.addEventListener('abort', () => reject(new Error('PDF reading was cancelled.')), { once: true });
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-async function extractText(file) {
-  const buffer = await readFileBuffer(file);
-  if (!(buffer instanceof ArrayBuffer) || buffer.byteLength === 0) {
-    throw new Error('The selected PDF is empty or unavailable.');
-  }
-  const bytes = new Uint8Array(buffer);
-  const loadingTask = pdfjsLib.getDocument({
-    data: bytes,
-    isEvalSupported: false,
-    stopAtErrors: false,
-    useWorkerFetch: false
-  });
-  const document = await loadingTask.promise;
-  const pages = [];
-  try {
-    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
-      const page = await document.getPage(pageNumber);
-      const content = await page.getTextContent();
-      pages.push(content.items.map(item => item.str).join(' '));
-      page.cleanup();
-    }
-  } finally {
-    await document.destroy();
-  }
-  return pages.join('\n');
-}
-
 function setField(id, value) {
   $(id).value = value ?? '';
 }
@@ -186,7 +147,7 @@ async function processPaystubFile(file) {
       payDate: '', periodStart: '', periodEnd: '', hours: null,
       commission: null, gross: null, net: null
     }, file.name);
-    status.textContent = 'Automatic reading failed, but you can enter the paystub totals below and save them.';
+    status.textContent = `Automatic reading failed (${error?.message || 'unknown reader error'}). You can enter the paystub totals below and save them.`;
   } finally {
     if (window.KeepRichPendingPaystubFile === file) window.KeepRichPendingPaystubFile = null;
     input.value = '';

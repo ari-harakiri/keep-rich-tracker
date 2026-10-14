@@ -156,6 +156,7 @@
   display: none;
 }
 
+.log-shift-composition::before,
 .log-shift-composition::after,
 .audit-trends-composition::after {
   display: none;
@@ -170,6 +171,12 @@
   position: relative;
   z-index: auto;
   margin-bottom: 10px;
+}
+
+#history::before {
+  top: -4px;
+  right: 6%;
+  transform: rotate(12deg);
 }
 
 .dashboard-group > *,
@@ -195,6 +202,7 @@
 }
 
 .portrait-visual {
+  position: relative;
   z-index: 1;
   justify-self: center;
   width: min(100%, 325px);
@@ -255,6 +263,7 @@
 }
 
 .trend-panel {
+  z-index: 3 !important;
   width: 100%;
 }
 
@@ -285,6 +294,93 @@
 .summary-composition {
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
+}
+
+.pink-pattern-sticker {
+  position: absolute;
+  z-index: 8;
+  display: block;
+  width: 38px;
+  height: auto;
+  pointer-events: none;
+}
+
+.green-pattern-sticker {
+  position: absolute;
+  z-index: 100;
+  display: block;
+  width: 64px;
+  height: auto;
+  pointer-events: none;
+}
+
+.calendar-toolbar,
+.calendar-summary,
+.calendar-detail,
+.audit-rate {
+  position: relative;
+}
+
+.pink-pattern-sticker--calendar-toolbar {
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.pink-pattern-sticker--calendar-summary {
+  right: 8px;
+  bottom: -12px;
+  width: 36px;
+  transform: rotate(14deg);
+}
+
+.pink-pattern-sticker--calendar-detail {
+  top: -15px;
+  left: 31%;
+  width: 38px;
+  transform: rotate(-15deg);
+}
+
+.pink-pattern-sticker--pay-summary {
+  top: -25px;
+  left: 24%;
+  width: 38px;
+  transform: rotate(7deg);
+}
+
+.green-pattern-sticker--trend-bottom {
+  right: -9px;
+  bottom: -29px;
+  transform: rotate(-14deg);
+}
+
+.pink-pattern-sticker--simulator {
+  right: 14%;
+  bottom: -18px;
+  width: 39px;
+  transform: rotate(10deg);
+}
+
+.pink-pattern-sticker--simulator-extra {
+  right: 9%;
+  bottom: 22px;
+  width: 39px;
+  transform: rotate(-10deg);
+}
+
+.pink-pattern-sticker--history {
+  top: -10px;
+  right: 12%;
+  width: 38px;
+  transform: rotate(-14deg);
+}
+
+.pink-pattern-sticker--audit-rate {
+  left: 8px;
+  bottom: -11px;
+  width: 38px;
+  transform: rotate(-16deg);
 }
 
 .closing-leaf {
@@ -416,6 +512,25 @@
     width: 124px;
     margin-bottom: 16px;
   }
+
+  .pink-pattern-sticker { width: 28px; }
+
+  .pink-pattern-sticker--calendar-toolbar {
+    left: 58%;
+    width: 30px;
+  }
+
+  .pink-pattern-sticker--calendar-detail { left: 46%; }
+  .pink-pattern-sticker--pay-summary { left: 28%; }
+  .pink-pattern-sticker--simulator { right: 18%; }
+  .pink-pattern-sticker--simulator-extra { right: 9%; }
+  .pink-pattern-sticker--history { right: 14%; }
+
+  #history::before {
+    top: -2px;
+    right: 3%;
+  }
+
 }
 
 @media (max-width: 560px) {
