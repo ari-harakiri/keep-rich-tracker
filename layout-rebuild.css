@@ -146,12 +146,18 @@
   left: 17%;
 }
 
+.calendar-composition::after {
+  right: 18%;
+  left: auto;
+}
+
 .paystub-composition::after,
 .summary-composition::after {
   right: 8%;
   left: auto;
 }
 
+.paystub-composition::before,
 .summary-composition::before {
   display: none;
 }
@@ -177,6 +183,42 @@
   top: -4px;
   right: 6%;
   transform: rotate(12deg);
+}
+
+.history-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 10px 10px;
+  font: 700 11px "Courier New", monospace;
+}
+
+.history-pagination[hidden] {
+  display: none;
+}
+
+.history-pagination button {
+  padding: 5px 10px;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  background: #fff6a8;
+  box-shadow: 1px 1px #101c4c;
+  cursor: pointer;
+}
+
+.history-pagination button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.history-table th,
+.history-table td {
+  padding: 6px 5px;
+}
+
+.history-table abbr {
+  text-decoration: none;
 }
 
 .dashboard-group > *,
@@ -529,6 +571,14 @@
   #history::before {
     top: -2px;
     right: 3%;
+  }
+
+  .calendar-composition::after {
+    right: 22%;
+  }
+
+  .history-pagination {
+    justify-content: space-between;
   }
 
 }
