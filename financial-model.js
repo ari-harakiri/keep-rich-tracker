@@ -20,12 +20,17 @@
   }
 
   function commissionFromShifts(shifts) {
-    const salesRows = shifts.filter(shift => known(shift?.sales));
+    const salesShiftTypes = new Set(['budtending', 'express']);
+    const nonSalesShiftTypes = new Set(['inventory', 'reception']);
+    const eligibleRows = shifts.filter(shift => salesShiftTypes.has(shift?.shiftType));
+    const commissionRows = shifts.filter(shift => salesShiftTypes.has(shift?.shiftType) ||
+      (!nonSalesShiftTypes.has(shift?.shiftType) && known(shift?.sales)));
+    const salesRows = commissionRows.filter(shift => known(shift?.sales));
     const sales = salesRows.length ? roundMoney(salesRows.reduce((sum, shift) => sum + Number(shift.sales), 0)) : null;
     return {
       sales,
       expected: known(sales) ? roundMoney(sales * COMMISSION_RATE) : null,
-      complete: salesRows.length > 0
+      complete: salesRows.length > 0 && eligibleRows.every(shift => known(shift?.sales))
     };
   }
 

@@ -86,6 +86,14 @@ body,
   border-color: #101c4c;
 }
 
+.shift-form select {
+  width: 100%;
+  min-width: 0;
+  padding: 7px;
+  background: #fff;
+  border: 2px solid #101c4c;
+}
+
 .shift-form textarea {
   width: 100%;
   min-height: 72px;

@@ -40,6 +40,20 @@ function stub(overrides = {}) {
   const blankExcluded = model.commissionFromShifts([shift({ sales: 2000 }), shift({ sales: null })]);
   assert.equal(blankExcluded.expected, 30);
   assert.equal(blankExcluded.complete, true);
+
+  const typed = model.commissionFromShifts([
+    shift({ shiftType: 'budtending', sales: 2000 }),
+    shift({ shiftType: 'inventory', sales: null }),
+    shift({ shiftType: 'reception', sales: null })
+  ]);
+  assert.equal(typed.expected, 30);
+  assert.equal(typed.complete, true);
+
+  const missingEligibleSales = model.commissionFromShifts([
+    shift({ shiftType: 'express', sales: null }),
+    shift({ shiftType: 'inventory', sales: null })
+  ]);
+  assert.equal(missingEligibleSales.complete, false);
 }
 
 {

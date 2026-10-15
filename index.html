@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#008080">
-<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=46"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=34"><link rel="stylesheet" href="cloud.css?v=24"><link rel="stylesheet" href="layout-rebuild.css?v=44">
+<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=47"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=34"><link rel="stylesheet" href="cloud.css?v=24"><link rel="stylesheet" href="layout-rebuild.css?v=44">
 </head>
 <body class="auth-locked"><section id="auth-gate" class="auth-gate" aria-labelledby="auth-heading"><div class="auth-window"><header class="auth-titlebar"><span>✿ KEEP_RICH.EXE · SECURE SIGN ON</span></header><div class="auth-layout"><div class="auth-art"><img src="keep-rich-stay-slay-leaf-glitter.png" alt="Kris Jenner against a blue sky and green hills with a glittering cannabis leaf hand"></div><div class="auth-form-wrap"><p class="auth-kicker">YOUR MONEY · YOUR ACCOUNT</p><h2 id="auth-heading">Welcome back, gorgeous.</h2><form id="auth-form" class="auth-form"><input id="auth-mode" type="hidden" value="signin"><label>Email<input id="auth-email" type="email" autocomplete="email" required></label><label>Password<input id="auth-password" type="password" autocomplete="current-password" minlength="6" required></label><button id="auth-submit" type="submit">Sign in</button></form><div class="auth-links"><button id="auth-toggle" type="button">New here? Create an account</button><button id="auth-forgot" type="button">Reset password</button></div><p id="auth-status" class="auth-status" aria-live="polite">Sign in to see the same tracker on your computer and phone.</p></div></div></div></section><main class="desktop"><section class="window app-shell" aria-labelledby="app-title">
   <header class="titlebar"><div class="titlebar__text"><span aria-hidden="true">✿</span><h1 id="app-title">KEEP_RICH.EXE</h1></div></header>
@@ -31,7 +31,7 @@
     <section class="dashboard-group log-shift-composition" aria-label="Log Shift">
       <section class="window inset" id="entry" aria-labelledby="entry-title"><header class="mini-title"><h3 id="entry-title">New Shift Entry</h3></header><form id="shift-form" class="shift-form">
         <label>Shift date<input id="date" type="date" required></label><label>Pay date<input id="pay-date" type="date" required></label>
-        <label>Hours<input id="hours" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Hourly wage ($)<input id="hourly-wage" type="number" min="0" step="0.01" placeholder="Enter your current rate"></label>
+        <label>Shift type<select id="shift-type"><option value="">Not specified</option><option value="inventory">Inventory</option><option value="reception">Reception</option><option value="budtending">Budtending</option><option value="express">Express</option></select></label><label>Hours<input id="hours" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Hourly wage ($)<input id="hourly-wage" type="number" min="0" step="0.01" placeholder="Enter your current rate"></label>
         <label>Tips ($)<input id="tips" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label><label>Sales ($)<input id="sales" type="number" min="0" step="0.01" placeholder="Blank if unknown"></label>
         <label>Transactions<input id="transactions" type="number" min="0" step="1" placeholder="Blank if unknown"></label><label>Items sold<input id="items" type="number" min="0" step="1" placeholder="Blank if unknown"></label>
         <label class="notes-field">Notes · optional<textarea id="notes" rows="3" placeholder="Anything worth remembering about this shift"></textarea></label>
@@ -107,7 +107,7 @@
       <footer class="note-dialog__actions"><button type="button" id="close-note-bottom">Close</button></footer>
     </div>
   </dialog>
-</section></main><script src="cloud.js?v=25"></script><script src="financial-model.js?v=3"></script><script src="app.js?v=46"></script><script>
+</section></main><script src="cloud.js?v=25"></script><script src="financial-model.js?v=4"></script><script src="app.js?v=47"></script><script>
 window.KeepRichPdfReaderReady = false;
 window.KeepRichPendingPaystubFile = null;
 const reportPdfReaderError = detail => {
