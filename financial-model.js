@@ -29,6 +29,16 @@
     };
   }
 
+  function matchShiftsToPaystub(paystub, shifts) {
+    const rows = Array.isArray(shifts) ? shifts : [];
+    const periodStart = paystub?.periodStart;
+    const periodEnd = paystub?.periodEnd;
+    if (periodStart && periodEnd) {
+      return rows.filter(shift => shift?.date && shift.date >= periodStart && shift.date <= periodEnd);
+    }
+    return paystub?.payDate ? rows.filter(shift => shift?.payDate === paystub.payDate) : [];
+  }
+
   function summarizeSelection(paystubs, shifts) {
     const stubs = Array.isArray(paystubs) ? paystubs : [];
     const rows = Array.isArray(shifts) ? shifts : [];
@@ -112,6 +122,7 @@
     sumKnown,
     strictSum,
     commissionFromShifts,
+    matchShiftsToPaystub,
     summarizeSelection,
     provisionalShiftSummary
   };

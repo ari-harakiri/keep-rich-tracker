@@ -20,7 +20,7 @@ function dashboardRows(){const selected=$('#dashboard-pay-date').value;if(select
 
 function savedPaystubs(){try{const rows=JSON.parse(localStorage.getItem(PAYSTUB_KEY)||'[]');return Array.isArray(rows)?rows:[]}catch{return[]}}
 function dashboardPaystubs(){const selected=$('#dashboard-pay-date').value,rows=savedPaystubs();return selected==='all'?rows:selected==='unassigned'?[]:rows.filter(stub=>stub.payDate===selected)}
-function paystubAudits(){return savedPaystubs().map(stub=>{const assigned=shifts.filter(shift=>shift.payDate===stub.payDate),summary=financial.summarizeSelection([stub],assigned);return{...stub,sales:summary.sales,expected:summary.expectedCommission,actual:summary.actualCommission,difference:summary.commissionDifference,status:summary.status}})}
+function paystubAudits(){return savedPaystubs().map(stub=>{const assigned=financial.matchShiftsToPaystub(stub,shifts),summary=financial.summarizeSelection([stub],assigned);return{...stub,sales:summary.sales,expected:summary.expectedCommission,actual:summary.actualCommission,difference:summary.commissionDifference,status:summary.status}})}
 
 function strictShiftTotal(rows){const values=rows.map(shiftEarnings);return values.length&&values.every(has)?values.reduce((sum,value)=>sum+value,0):null}
 function calendarRows(dateString){return shifts.filter(shift=>shift.date===dateString)}

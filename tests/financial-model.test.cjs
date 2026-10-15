@@ -49,6 +49,17 @@ function stub(overrides = {}) {
 }
 
 {
+  const paystub = stub({ periodStart: '2026-10-01', periodEnd: '2026-10-15' });
+  const rows = [
+    shift({ date: '2026-10-01', payDate: null, sales: 1000 }),
+    shift({ date: '2026-10-15', payDate: null, sales: 1200 }),
+    shift({ date: '2026-10-16', payDate: paystub.payDate, sales: 900 })
+  ];
+  assert.deepEqual(model.matchShiftsToPaystub(paystub, rows).map(row => row.date), ['2026-10-01', '2026-10-15']);
+  assert.deepEqual(model.matchShiftsToPaystub(stub({ periodStart: null, periodEnd: null }), rows).map(row => row.date), ['2026-10-16']);
+}
+
+{
   const discrepancy = model.summarizeSelection([stub({ hours: 40 })], [shift({ hours: 52, sales: 2000 })]);
   assert.equal(discrepancy.otherHours, null);
   assert.equal(discrepancy.hoursDiscrepancy, 12);
@@ -74,4 +85,4 @@ function stub(overrides = {}) {
   assert.equal(model.summarizeSelection(roundTrip.paystubs, roundTrip.shifts).expectedCommission, 0);
 }
 
-console.log('financial-model: 8 scenario groups passed');
+console.log('financial-model: 9 scenario groups passed');
