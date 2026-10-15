@@ -36,6 +36,10 @@ function stub(overrides = {}) {
 
   const positive = model.commissionFromShifts([shift({ sales: 2000 })]);
   assert.equal(positive.expected, 30);
+
+  const blankExcluded = model.commissionFromShifts([shift({ sales: 2000 }), shift({ sales: null })]);
+  assert.equal(blankExcluded.expected, 30);
+  assert.equal(blankExcluded.complete, true);
 }
 
 {

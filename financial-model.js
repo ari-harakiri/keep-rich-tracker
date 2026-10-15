@@ -25,7 +25,7 @@
     return {
       sales,
       expected: known(sales) ? roundMoney(sales * COMMISSION_RATE) : null,
-      complete: shifts.length > 0 && salesRows.length === shifts.length
+      complete: salesRows.length > 0
     };
   }
 

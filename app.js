@@ -42,9 +42,10 @@ function renderCalendar(){
 }
 
 function renderAudit(){
-  const records=paystubAudits(),complete=records.length>0&&records.every(row=>has(row.difference)),expected=sumKnown(records,'expected'),actual=sumKnown(records,'actual'),difference=complete?financial.roundMoney(actual-expected):null;
+  const records=paystubAudits(),completeRecords=records.filter(row=>has(row.difference)),incompleteCount=records.length-completeRecords.length,complete=completeRecords.length>0,expected=sumKnown(completeRecords,'expected'),actual=sumKnown(completeRecords,'actual'),difference=complete?financial.roundMoney(actual-expected):null;
   $('#audit-expected').textContent=fmt(expected);$('#audit-paid').textContent=fmt(actual);$('#audit-difference').textContent=has(difference)?`${difference>=0?'+':''}${money.format(difference)}`:'—';$('#audit-difference').className=has(difference)?(difference>=-.01?'good':'bad'):'missing';
-  $('#audit-message').textContent=!records.length?'Save a paystub to compare expected and paid commission.':!complete?'Incomplete: every matched shift needs a sales value and every paystub needs a commission amount.':Math.abs(difference)<.01?'Saved paystubs match the expected 1.5%.':difference<0?`Saved paystubs may be short ${money.format(Math.abs(difference))}.`:`Saved paystubs are ${money.format(difference)} above 1.5%.`;
+  const incompleteNote=incompleteCount?` ${incompleteCount} other paystub${incompleteCount===1?' is':'s are'} omitted until both recorded sales and commission are available.`:'';
+  $('#audit-message').textContent=!records.length?'Save a paystub to compare expected and paid commission.':!complete?'Incomplete: enter at least one recorded sale and a commission amount for the same pay period.':`${Math.abs(difference)<.01?'Saved paystubs match the expected 1.5%.':difference<0?`Saved paystubs may be short ${money.format(Math.abs(difference))}.`:`Saved paystubs are ${money.format(difference)} above 1.5%.`}${incompleteNote}`;
   $('#audit-period-body').innerHTML=records.map(row=>`<tr><td>${payDateLabel(row.payDate)}</td><td>${fmt(row.sales)}</td><td>${fmt(row.expected)}</td><td>${fmt(row.actual)}</td><td class="${has(row.difference)?(row.difference>=-.01?'good':'bad'):'missing'}">${has(row.difference)?`${row.difference>=0?'+':''}${money.format(row.difference)}`:'Incomplete'}</td></tr>`).join('')||'<tr><td colspan="5" class="missing">No saved paystubs yet.</td></tr>';
 }
 
