@@ -1,4 +1,4 @@
-const STORAGE_KEY='keepRichShiftsV2',PAYSTUB_KEY='keepRichPaystubsV1',PAY_DATE_VIEW_KEY='keepRichPayDateViewV1',HISTORY_PAGE_SIZE=10,financial=window.KeepRichFinancialModel,RATE=financial.COMMISSION_RATE;
+const STORAGE_KEY='keepRichShiftsV2',PAYSTUB_KEY='keepRichPaystubsV1',PAY_DATE_VIEW_KEY='keepRichPayDateViewV1',PAY_SCHEDULE_KEY='keepRichPayScheduleV1',HISTORY_PAGE_SIZE=10,financial=window.KeepRichFinancialModel,RATE=financial.COMMISSION_RATE;
 const PREVIEW_MODE=['127.0.0.1','localhost'].includes(location.hostname)&&new URLSearchParams(location.search).has('preview'),money=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}),compactMoney=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}),shortDate=new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}),longDate=new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}),monthName=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}),$=s=>document.querySelector(s),isoToday=()=>new Date().toISOString().slice(0,10);
 let shifts=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'),editingId=null,historyPage=1,calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate=isoToday();
 if(PREVIEW_MODE)shifts=[{id:'preview-1',date:'2026-10-02',payDate:'2026-10-16',hours:7.5,hourlyWage:20,tips:84,sales:2160,transactions:43,items:67,notes:'Preview shift'},{id:'preview-2',date:'2026-10-05',payDate:'2026-10-16',hours:8,hourlyWage:20,tips:126,sales:2875,transactions:55,items:82,notes:'Preview shift'},{id:'preview-3',date:'2026-10-09',payDate:'2026-10-16',hours:6.5,hourlyWage:20,tips:72,sales:1940,transactions:38,items:59,notes:'Preview shift'},{id:'preview-4',date:'2026-10-12',payDate:'2026-10-30',hours:8,hourlyWage:21,tips:148,sales:3230,transactions:61,items:94,notes:'Preview shift'}];
@@ -19,6 +19,13 @@ function numericPayDate(dateString){if(!dateString)return'—';const[year,month,
 function dashboardRows(){const selected=$('#dashboard-pay-date').value;if(selected==='unassigned')return shifts.filter(s=>!s.payDate);if(selected!=='all')return shifts.filter(s=>s.payDate===selected);const stubDates=new Set(savedPaystubs().map(stub=>stub.payDate).filter(Boolean));return stubDates.size?shifts.filter(shift=>stubDates.has(shift.payDate)):shifts}
 
 function savedPaystubs(){try{const rows=JSON.parse(localStorage.getItem(PAYSTUB_KEY)||'[]');return Array.isArray(rows)?rows:[]}catch{return[]}}
+function savedPaySchedule(){try{const schedule=JSON.parse(localStorage.getItem(PAY_SCHEDULE_KEY)||'null');return schedule?.payDate&&schedule?.frequency?schedule:null}catch{return null}}
+function learnedPaySchedule(){return financial.scheduleFromPaystubs(savedPaystubs())}
+function activePaySchedule(){return savedPaySchedule()||learnedPaySchedule()}
+function frequencyLabel(value){return{weekly:'every week',biweekly:'every 2 weeks',fourWeekly:'every 4 weeks',monthly:'monthly'}[value]||value}
+function renderPaySchedule(){const manual=savedPaySchedule(),learned=learnedPaySchedule(),active=manual||learned;$('#schedule-pay-date').value=active?.payDate||'';$('#schedule-frequency').value=active?.frequency||'biweekly';$('#schedule-use-paystub').disabled=!learned;$('#pay-schedule-status').textContent=manual?`Manual override: ${numericPayDate(manual.payDate)}, ${frequencyLabel(manual.frequency)}.`:learned?`Learned from paystub: ${numericPayDate(learned.payDate)}, ${frequencyLabel(learned.frequency)}.`:'No schedule learned yet. Add one complete paystub or save a manual schedule.'}
+function updateAutoPayDate(force=false){const input=$('#pay-date');if(!force&&input.value&&input.dataset.auto!=='true')return;const inferred=financial.inferPayDate($('#date').value,savedPaystubs(),activePaySchedule());if(inferred){input.value=inferred;input.dataset.auto='true'}else{if(force||input.dataset.auto==='true')input.value='';delete input.dataset.auto}}
+function assignMissingPayDates(){let count=0;shifts=shifts.map(shift=>{if(shift.payDate)return shift;const payDate=financial.inferPayDate(shift.date,savedPaystubs(),activePaySchedule());if(!payDate)return shift;count+=1;return{...shift,payDate}});return count}
 function dashboardPaystubs(){const selected=$('#dashboard-pay-date').value,rows=savedPaystubs();return selected==='all'?rows:selected==='unassigned'?[]:rows.filter(stub=>stub.payDate===selected)}
 function paystubAudits(){return savedPaystubs().map(stub=>{const assigned=financial.matchShiftsToPaystub(stub,shifts),summary=financial.summarizeSelection([stub],assigned);return{...stub,sales:summary.sales,expected:summary.expectedCommission,actual:summary.actualCommission,difference:summary.commissionDifference,status:summary.status}})}
 
@@ -100,13 +107,15 @@ function renderChart(){
 
 function setFormValue(id,input){$(`#${id}`).value=has(input)?input:''}
 function resetShiftEditor(message='Ready for your next shift.'){
-  editingId=null;const wage=latestHourlyWage();$('#shift-form').reset();$('#date').value=isoToday();$('#hourly-wage').value=wage;$('#shift-submit').textContent='Save shift';$('#cancel-edit').hidden=true;$('#entry-status').textContent=message;
+  editingId=null;const wage=latestHourlyWage();$('#shift-form').reset();$('#date').value=isoToday();$('#hourly-wage').value=wage;delete $('#pay-date').dataset.auto;updateAutoPayDate(true);$('#shift-submit').textContent='Save shift';$('#cancel-edit').hidden=true;$('#entry-status').textContent=message;
 }
 function editShift(id){
   const shift=shifts.find(row=>row.id===id);if(!shift)return;editingId=id;
   $('#date').value=shift.date;$('#pay-date').value=shift.payDate||'';$('#shift-type').value=shift.shiftType||'';setFormValue('hours',shift.hours);setFormValue('hourly-wage',shift.hourlyWage);setFormValue('tips',shift.tips);setFormValue('sales',shift.sales);setFormValue('transactions',shift.transactions);setFormValue('items',shift.items);$('#notes').value=shift.notes||'';
+  const inferred=financial.inferPayDate(shift.date,savedPaystubs(),activePaySchedule());if(inferred&&inferred===shift.payDate)$('#pay-date').dataset.auto='true';else delete $('#pay-date').dataset.auto;
   $('#shift-submit').textContent='Update shift';$('#cancel-edit').hidden=false;$('#entry-status').textContent=`Editing ${shift.date}. Changes are not saved until you choose Update shift.`;showPage('log-shift');$('#entry').scrollIntoView({behavior:'smooth',block:'start'});
 }
+$('#date').addEventListener('change',()=>updateAutoPayDate(true));
 $('#shift-form').addEventListener('submit',e=>{e.preventDefault();const sales=value('sales'),transactions=value('transactions'),metrics=['hours','hourly-wage','tips','sales','transactions','items'].map(value);if(metrics.every(v=>!has(v))&&!$('#notes').value.trim()){$('#entry-status').textContent='Add at least one shift detail before saving.';return}const wasEditing=Boolean(editingId),shift={id:editingId||crypto.randomUUID(),date:$('#date').value,payDate:$('#pay-date').value,shiftType:$('#shift-type').value||null,hours:value('hours'),hourlyWage:value('hourly-wage'),tips:value('tips'),sales,transactions,items:value('items'),notes:$('#notes').value.trim()};if(wasEditing){const index=shifts.findIndex(row=>row.id===editingId);if(index>=0)shifts[index]=shift}else shifts.push(shift);historyPage=1;save();render();resetShiftEditor(`${wasEditing?'Updated':'Saved'} ${shift.date} for pay date ${payDateLabel(shift.payDate)}.${has(sales)?` Expected commission: ${money.format(sales*RATE)}.`:''}`)});
 $('#cancel-edit').addEventListener('click',()=>resetShiftEditor('Edit canceled. The saved shift was not changed.'));
 $('#history-body').addEventListener('click',e=>{const noteId=e.target.dataset.viewNote;if(noteId){openNote(noteId);return}const editId=e.target.dataset.edit;if(editId){editShift(editId);return}const id=e.target.dataset.delete;if(!id)return;shifts=shifts.filter(s=>s.id!==id);if(editingId===id)resetShiftEditor('The shift being edited was deleted.');save();render()});
@@ -119,7 +128,7 @@ $('#calendar-next').addEventListener('click',()=>{calendarCursor=new Date(calend
 $('#calendar-today').addEventListener('click',()=>{const today=new Date();calendarCursor=new Date(today.getFullYear(),today.getMonth(),1);calendarSelectedDate=isoToday();renderCalendar()});
 $('#calendar-grid').addEventListener('click',event=>{const day=event.target.closest('[data-calendar-date]');if(!day)return;calendarSelectedDate=day.dataset.calendarDate;renderCalendar()});
 $('#calendar-detail-body').addEventListener('click',event=>{const id=event.target.dataset.calendarEdit;if(id)editShift(id)});
-$('#calendar-log-day').addEventListener('click',()=>{$('#date').value=$('#calendar-log-day').dataset.date||calendarSelectedDate;showPage('log-shift');$('#entry').scrollIntoView({behavior:'smooth',block:'start'})});
+$('#calendar-log-day').addEventListener('click',()=>{$('#date').value=$('#calendar-log-day').dataset.date||calendarSelectedDate;updateAutoPayDate(true);showPage('log-shift');$('#entry').scrollIntoView({behavior:'smooth',block:'start'})});
 
 const PAGE_NAMES=['dashboard','calendar','log-shift','paystubs','pay-periods','trends','audit','account'];
 function showPage(requested,updateAddress=true){
@@ -143,7 +152,9 @@ window.addEventListener('tracker:navigate',event=>showPage(event.detail));
 
 function updateSimulator(){const sales=value('sim-sales'),rate=value('sim-rate');$('#sim-rate-output').textContent=`${rate.toFixed(1)}%`;$('#sim-result').textContent=fmt(sales*rate/100);const diff=sales*rate/100-sales*RATE;$('#sim-compare').textContent=Math.abs(diff)<.01?'Same as 1.5%':`${diff>0?'+':''}${money.format(diff)} versus 1.5%`}
 $('#sim-sales').addEventListener('input',updateSimulator);$('#sim-rate').addEventListener('input',updateSimulator);
-window.addEventListener('paystubs:changed',render);
-window.addEventListener('tracker:data-loaded',()=>{shifts=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');editingId=null;historyPage=1;render();resetShiftEditor('Your synced shifts are ready.')});
+$('#pay-schedule-form').addEventListener('submit',event=>{event.preventDefault();const payDate=$('#schedule-pay-date').value,frequency=$('#schedule-frequency').value;if(!payDate){$('#pay-schedule-status').textContent='Choose one known payday first.';return}localStorage.setItem(PAY_SCHEDULE_KEY,JSON.stringify({payDate,frequency,source:'manual'}));const assigned=assignMissingPayDates();if(assigned)save();else window.KeepRichCloud?.changed('Pay schedule');renderPaySchedule();updateAutoPayDate(true);render()});
+$('#schedule-use-paystub').addEventListener('click',()=>{const learned=learnedPaySchedule();if(!learned)return;localStorage.removeItem(PAY_SCHEDULE_KEY);const assigned=assignMissingPayDates();if(assigned)save();else window.KeepRichCloud?.changed('Pay schedule');renderPaySchedule();updateAutoPayDate(true);render()});
+window.addEventListener('paystubs:changed',()=>{const assigned=assignMissingPayDates();if(assigned)save();renderPaySchedule();updateAutoPayDate(!$('#pay-date').value||$('#pay-date').dataset.auto==='true');render()});
+window.addEventListener('tracker:data-loaded',()=>{shifts=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');editingId=null;historyPage=1;renderPaySchedule();render();resetShiftEditor('Your synced shifts are ready.')});
 
-$('#hourly-wage').value=latestHourlyWage();updateSimulator();render();showPage(location.hash.slice(1),!PAGE_NAMES.includes(location.hash.slice(1)));
+$('#hourly-wage').value=latestHourlyWage();renderPaySchedule();updateAutoPayDate(true);updateSimulator();render();showPage(location.hash.slice(1),!PAGE_NAMES.includes(location.hash.slice(1)));

@@ -12,7 +12,7 @@ const payload = {
   updatedAt: new Date(0).toISOString(),
   shifts,
   paystubs,
-  preferences: { dashboardPayDate: '2025-01-10' }
+  preferences: { dashboardPayDate: '2025-01-10', paySchedule: { payDate: '2025-01-10', frequency: 'biweekly', source: 'manual' } }
 };
 
 const restored = JSON.parse(JSON.stringify(payload));
@@ -22,4 +22,5 @@ assert.equal(restored.shifts[0].hours, null);
 assert.equal(restored.shifts[0].tips, 0);
 assert.equal(restored.paystubs[0].commission, 0);
 assert.equal(restored.preferences.dashboardPayDate, '2025-01-10');
+assert.deepEqual(restored.preferences.paySchedule, { payDate: '2025-01-10', frequency: 'biweekly', source: 'manual' });
 console.log('storage contract passed: legacy nulls, zeros, shifts, paystubs, and preferences preserved');

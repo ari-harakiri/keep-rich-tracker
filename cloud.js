@@ -10,6 +10,7 @@
   const SHIFT_KEY = 'keepRichShiftsV2';
   const PAYSTUB_KEY = 'keepRichPaystubsV1';
   const VIEW_KEY = 'keepRichPayDateViewV1';
+  const PAY_SCHEDULE_KEY = 'keepRichPayScheduleV1';
   const $ = selector => document.querySelector(selector);
   const readJson = (key, fallback) => {
     try {
@@ -30,7 +31,7 @@
       updatedAt: new Date().toISOString(),
       shifts: Array.isArray(shifts) ? shifts : [],
       paystubs: Array.isArray(paystubs) ? paystubs : [],
-      preferences: { dashboardPayDate: localStorage.getItem(VIEW_KEY) || 'all' }
+      preferences: { dashboardPayDate: localStorage.getItem(VIEW_KEY) || 'all', paySchedule: readJson(PAY_SCHEDULE_KEY, null) }
     };
   }
 
@@ -97,16 +98,17 @@
   function showSignedIn(user) {
     const email = user?.email || session?.user?.email || '';
     if ($('#account-email')) $('#account-email').textContent = email;
-    document.body.classList.remove('auth-locked');
-    $('main').inert = false;
-    $('#auth-gate').hidden = true;
+    $('#account-auth').hidden = true;
+    $('#cloud-sync-now').hidden = false;
+    $('#account-signout').hidden = false;
   }
 
   function showSignedOut(message = '') {
-    document.body.classList.add('auth-locked');
-    $('main').inert = true;
-    $('#auth-gate').hidden = false;
-    if (message) $('#auth-status').textContent = message;
+    if ($('#account-email')) $('#account-email').textContent = 'Local browser';
+    $('#account-auth').hidden = false;
+    $('#cloud-sync-now').hidden = true;
+    $('#account-signout').hidden = true;
+    setCloudStatus('Device only', message || 'Your data is saved in this browser. Email sync is optional.', 'device-only');
   }
 
   function loadPayload(payload) {
@@ -114,6 +116,17 @@
     localStorage.setItem(SHIFT_KEY, JSON.stringify(payload.shifts));
     localStorage.setItem(PAYSTUB_KEY, JSON.stringify(payload.paystubs));
     if (payload.preferences?.dashboardPayDate) localStorage.setItem(VIEW_KEY, payload.preferences.dashboardPayDate);
+    if (payload.preferences?.paySchedule) localStorage.setItem(PAY_SCHEDULE_KEY, JSON.stringify(payload.preferences.paySchedule));
+    else localStorage.removeItem(PAY_SCHEDULE_KEY);
+    window.dispatchEvent(new Event('tracker:data-loaded'));
+  }
+
+  function clearLocalTracker() {
+    localStorage.setItem(SHIFT_KEY, '[]');
+    localStorage.setItem(PAYSTUB_KEY, '[]');
+    localStorage.removeItem(VIEW_KEY);
+    localStorage.removeItem(PAY_SCHEDULE_KEY);
+    localStorage.removeItem(DIRTY_KEY);
     window.dispatchEvent(new Event('tracker:data-loaded'));
   }
 
@@ -138,13 +151,6 @@
     if (!current?.user?.id) { showSignedOut(); return; }
     showSignedIn(current.user);
     setCloudStatus('Connecting', 'Checking for your saved tracker data…', 'connecting');
-    const previousUser = localStorage.getItem(LAST_USER_KEY);
-    if (previousUser && previousUser !== current.user.id) {
-      localStorage.setItem(SHIFT_KEY, '[]');
-      localStorage.setItem(PAYSTUB_KEY, '[]');
-      localStorage.removeItem(DIRTY_KEY);
-      window.dispatchEvent(new Event('tracker:data-loaded'));
-    }
     localStorage.setItem(LAST_USER_KEY, current.user.id);
     try {
       if (localStorage.getItem(DIRTY_KEY) === '1') {
@@ -178,12 +184,12 @@
 
   function switchAuthMode(mode) {
     const create = mode === 'create';
-    $('#auth-heading').textContent = create ? 'Create your account' : 'Welcome back, gorgeous.';
-    $('#auth-submit').textContent = create ? 'Create account' : 'Sign in';
+    $('#auth-heading').textContent = create ? 'Create your optional account' : 'Save and sync across devices';
+    $('#auth-submit').textContent = create ? 'Create account & sync' : 'Sign in & sync';
     $('#auth-mode').value = mode;
     $('#auth-password').autocomplete = create ? 'new-password' : 'current-password';
     $('#auth-toggle').textContent = create ? 'Already have an account? Sign in' : 'New here? Create an account';
-    $('#auth-status').textContent = create ? 'Create one private account for your phone and computer.' : 'Sign in to see the same tracker on your computer and phone.';
+    $('#auth-status').textContent = create ? 'Create one private account for your phone and computer.' : 'Sign in only if you want this browser copy saved to your email account.';
   }
 
   $('#auth-form').addEventListener('submit', async event => {
@@ -227,7 +233,9 @@
       if (current) await responseData(await fetch(`${SUPABASE_URL}/auth/v1/logout`, { method: 'POST', headers: authHeaders(current.access_token) }));
     } catch {}
     setSession(null);
-    showSignedOut('Signed out. Your account data remains online.');
+    clearLocalTracker();
+    $('#cloud-last').textContent = 'Not signed in';
+    showSignedOut('Signed out. This device is clear, and your account copy remains safely online.');
   });
   $('#cloud-sync-now').addEventListener('click', () => changed('Manual sync'));
   $('#cloud-download').addEventListener('click', () => {
@@ -250,8 +258,7 @@
   window.KeepRichCloud = { changed, hydrate, payload: trackerPayload };
   switchAuthMode('signin');
   if (LOCAL_PREVIEW) {
-    showSignedIn({ email: 'local preview' });
-    setCloudStatus('Preview', 'Local calendar preview. Nothing here is synced.', 'synced');
+    showSignedOut('Local preview. Nothing here is synced unless you sign in.');
   } else {
     hydrate();
   }

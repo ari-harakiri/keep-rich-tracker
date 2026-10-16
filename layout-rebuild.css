@@ -253,8 +253,8 @@
   z-index: 1;
   justify-self: center;
   width: min(100%, 325px);
-  margin-block: -4px -8px;
-  transform: rotate(.35deg);
+  margin-block: 34px -8px;
+  transform: translateY(-25px) rotate(.35deg);
 }
 
 .calendar-composition {
@@ -462,7 +462,7 @@
     display: contents;
   }
 
-  .portrait-visual { width: min(78%, 325px); }
+  .portrait-visual { width: min(78%, 325px); margin-top: 10px; transform: rotate(.35deg); }
   .homer-visual { width: min(78%, 350px); }
   .pink-cannabis-visual { width: min(78%, 330px); }
   .glitter-hands-visual {

@@ -103,4 +103,20 @@ function stub(overrides = {}) {
   assert.equal(model.summarizeSelection(roundTrip.paystubs, roundTrip.shifts).expectedCommission, 0);
 }
 
-console.log('financial-model: 9 scenario groups passed');
+{
+  const paystubs = [{ payDate: '2026-10-23', periodStart: '2026-10-04', periodEnd: '2026-10-17' }];
+  assert.deepEqual(model.scheduleFromPaystubs(paystubs), { payDate: '2026-10-23', frequency: 'biweekly', source: 'paystub' });
+  assert.equal(model.inferPayDate('2026-10-14', paystubs), '2026-10-23');
+  assert.equal(model.inferPayDate('2026-10-18', paystubs), '2026-11-06');
+  assert.equal(model.inferPayDate('2026-10-03', paystubs), '2026-10-09');
+  assert.equal(model.scheduleFromPaystubs([{ payDate: '2026-10-16', periodStart: '2026-10-01', periodEnd: '2026-10-15' }]).frequency, 'biweekly');
+}
+
+{
+  const paystubs = [{ payDate: '2026-10-23', periodStart: '2026-10-04', periodEnd: '2026-10-17' }];
+  const manual = { payDate: '2026-10-30', frequency: 'biweekly', source: 'manual' };
+  assert.equal(model.inferPayDate('2026-10-14', paystubs, manual), '2026-10-16');
+  assert.equal(model.inferPayDate('2026-10-31', paystubs, manual), '2026-11-13');
+}
+
+console.log('financial-model: 11 scenario groups passed');

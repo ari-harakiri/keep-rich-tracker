@@ -26,4 +26,25 @@ if (!/HISTORY_PAGE_SIZE\s*=\s*10/.test(scripts)) {
 if (!/<th><abbr title="Shift date">Shift<\/abbr><\/th><th>Pay date<\/th>/.test(html)) {
   throw new Error('Shift History must show Shift before Pay date.');
 }
+if (/auth-locked|id="auth-gate"/.test(html)) {
+  throw new Error('Authentication must never block the tracker.');
+}
+if (!/data-page="account"[\s\S]*id="account-auth"/.test(html)) {
+  throw new Error('Optional email sign-in must live inside Account & Sync.');
+}
+if (!/id="account-signout"/.test(html) || !/id="cloud-sync-now"/.test(html)) {
+  throw new Error('Signed-in account controls must include sync and sign out.');
+}
+if (/<input id="pay-date"[^>]*required/.test(html)) {
+  throw new Error('Shift pay date must not be manually required.');
+}
+if (!/<input id="pay-date" type="hidden">/.test(html) || /Pay date · auto/.test(html)) {
+  throw new Error('New Shift Entry must calculate pay date without showing a pay-date section.');
+}
+if (!/id="pay-schedule-form"/.test(html) || !/id="schedule-use-paystub"/.test(html)) {
+  throw new Error('Account must include automatic pay schedule controls.');
+}
+if (!/setSession\(null\);\s*clearLocalTracker\(\);/.test(scripts)) {
+  throw new Error('Signing out must clear account data from the current browser.');
+}
 console.log(`DOM contract passed: ${used.size} referenced ids found`);

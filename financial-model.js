@@ -6,8 +6,83 @@
   'use strict';
 
   const COMMISSION_RATE = 0.015;
+  const DAY_MS = 86400000;
   const known = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value));
   const roundMoney = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+
+  function utcDay(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    const time = Date.UTC(year, month - 1, day);
+    return new Date(time).toISOString().slice(0, 10) === value ? time : null;
+  }
+
+  function isoDay(time) {
+    return new Date(time).toISOString().slice(0, 10);
+  }
+
+  function scheduledPayDate(shiftTime, schedule) {
+    const anchorTime = utcDay(schedule?.payDate);
+    const frequency = schedule?.frequency;
+    if (anchorTime === null) return null;
+    const intervalDays = { weekly: 7, biweekly: 14, fourWeekly: 28 }[frequency];
+    if (intervalDays) {
+      const cycles = Math.ceil((shiftTime - anchorTime) / (intervalDays * DAY_MS));
+      return isoDay(anchorTime + cycles * intervalDays * DAY_MS);
+    }
+    if (frequency === 'monthly') {
+      const shift = new Date(shiftTime);
+      const anchor = new Date(anchorTime);
+      const paydayFor = (year, month) => {
+        const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+        return Date.UTC(year, month, Math.min(anchor.getUTCDate(), lastDay));
+      };
+      let candidate = paydayFor(shift.getUTCFullYear(), shift.getUTCMonth());
+      if (candidate < shiftTime) candidate = paydayFor(shift.getUTCFullYear(), shift.getUTCMonth() + 1);
+      return isoDay(candidate);
+    }
+    return null;
+  }
+
+  function scheduleFromPaystubs(paystubs) {
+    const schedules = (Array.isArray(paystubs) ? paystubs : []).map(stub => {
+      const payTime = utcDay(stub?.payDate);
+      const startTime = utcDay(stub?.periodStart);
+      const endTime = utcDay(stub?.periodEnd);
+      if (payTime === null || startTime === null || endTime === null || startTime > endTime) return null;
+      const spanDays = Math.round((endTime - startTime) / DAY_MS);
+      const frequency = [6, 7].includes(spanDays) ? 'weekly' : spanDays >= 13 && spanDays <= 15 ? 'biweekly' : spanDays === 27 ? 'fourWeekly' : spanDays >= 28 && spanDays <= 31 ? 'monthly' : null;
+      return frequency ? { payDate: stub.payDate, frequency, source: 'paystub', payTime } : null;
+    }).filter(Boolean).sort((a, b) => b.payTime - a.payTime);
+    if (!schedules.length) return null;
+    const { payDate, frequency, source } = schedules[0];
+    return { payDate, frequency, source };
+  }
+
+  function inferPayDate(shiftDate, paystubs, schedule) {
+    const shiftTime = utcDay(shiftDate);
+    if (shiftTime === null) return null;
+    if (schedule?.source === 'manual') return scheduledPayDate(shiftTime, schedule);
+    const anchors = (Array.isArray(paystubs) ? paystubs : []).map(stub => ({
+      payDate: stub?.payDate,
+      payTime: utcDay(stub?.payDate),
+      startTime: utcDay(stub?.periodStart),
+      endTime: utcDay(stub?.periodEnd)
+    })).filter(anchor => anchor.payTime !== null && anchor.startTime !== null && anchor.endTime !== null && anchor.startTime <= anchor.endTime);
+    const direct = anchors.find(anchor => shiftTime >= anchor.startTime && shiftTime <= anchor.endTime);
+    if (direct) return direct.payDate;
+    const repeating = anchors.map(anchor => {
+      const learned = scheduleFromPaystubs([{ payDate: anchor.payDate, periodStart: isoDay(anchor.startTime), periodEnd: isoDay(anchor.endTime) }]);
+      return { ...anchor, cycleDays: { weekly: 7, biweekly: 14, fourWeekly: 28 }[learned?.frequency] };
+    }).filter(anchor => anchor.cycleDays);
+    if (repeating.length) {
+      repeating.sort((a, b) => Math.abs(shiftTime - a.startTime) - Math.abs(shiftTime - b.startTime));
+      const anchor = repeating[0];
+      const cycle = Math.floor((shiftTime - anchor.startTime) / (anchor.cycleDays * DAY_MS));
+      return isoDay(anchor.payTime + cycle * anchor.cycleDays * DAY_MS);
+    }
+    return scheduledPayDate(shiftTime, schedule || scheduleFromPaystubs(paystubs));
+  }
 
   function sumKnown(rows, key) {
     const values = rows.map(row => row?.[key]).filter(known).map(Number);
@@ -126,6 +201,8 @@
     roundMoney,
     sumKnown,
     strictSum,
+    inferPayDate,
+    scheduleFromPaystubs,
     commissionFromShifts,
     matchShiftsToPaystub,
     summarizeSelection,

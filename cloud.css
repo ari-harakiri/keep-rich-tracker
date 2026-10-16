@@ -1,42 +1,18 @@
-.auth-gate {
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  overflow: auto;
-  background: #58d33d;
-}
-
-.auth-gate[hidden] { display: none; }
-.auth-locked > main { filter: blur(5px); pointer-events: none; user-select: none; }
-
-.auth-window {
-  width: min(760px, 100%);
-  overflow: hidden;
-  background: #fff;
-  border: 4px solid #101c4c;
-  box-shadow: 10px 10px 0 #ff66c7, 15px 15px 0 #fff267;
-}
-
-.auth-titlebar {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  color: #101c4c;
-  background: linear-gradient(90deg, #d9ccff, #f1b2dc);
-  border-bottom: 3px solid #101c4c;
-  font: 900 14px "Courier New", monospace;
-}
-
-.auth-layout { display: grid; grid-template-columns: minmax(250px, .9fr) minmax(300px, 1.1fr); }
-.auth-art { min-height: 440px; background: #fff267; border-right: 3px solid #101c4c; }
-.auth-art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.auth-form-wrap { padding: clamp(24px, 5vw, 46px); background: linear-gradient(145deg, #fff 0 72%, #eaffdf 72%); }
 .auth-kicker { margin: 0 0 8px; color: #0d7d2c; font: 900 12px "Courier New", monospace; letter-spacing: .08em; }
-.auth-form-wrap h2 { margin: 0 0 22px; color: #101c4c; font-size: clamp(27px, 4vw, 40px); line-height: 1.02; text-shadow: 3px 3px 0 #ff9bd8; }
+.pay-schedule { padding: 20px 24px 22px; background: #fff9c9; border-top: 3px solid #101c4c; }
+.pay-schedule h4 { margin: 0 0 8px; color: #101c4c; font-size: 22px; }
+.pay-schedule > p:not(.auth-kicker):not(.status) { max-width: 760px; margin: 0 0 16px; }
+.pay-schedule-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
+.pay-schedule-form label { display: grid; gap: 6px; color: #101c4c; font-weight: 900; }
+.pay-schedule-form input,.pay-schedule-form select { min-height: 43px; padding: 8px 10px; color: #101c4c; background: #fff; border: 3px inset #b8b8b8; font: 700 16px Arial, sans-serif; }
+.pay-schedule-form button { min-height: 44px; padding: 9px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
+.pay-schedule-form button:disabled { opacity: .45; cursor: default; }
+.account-auth { padding: 20px 24px 24px; background: linear-gradient(145deg, #fff 0 76%, #eaffdf 76%); border-top: 3px solid #101c4c; }
+.account-auth[hidden],.account-actions button[hidden] { display: none; }
+.account-auth h4 { margin: 0 0 8px; color: #101c4c; font-size: 22px; text-shadow: 2px 2px 0 #ff9bd8; }
+.account-auth__intro { max-width: 720px; margin: 0 0 16px; }
 .auth-form { display: grid; gap: 14px; }
+.account-auth .auth-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: end; }
 .auth-form label { display: grid; gap: 6px; color: #101c4c; font-weight: 900; }
 .auth-form input { min-height: 43px; padding: 8px 10px; color: #101c4c; background: #fff; border: 3px inset #b8b8b8; font: 700 16px Arial, sans-serif; }
 .auth-form button { min-height: 44px; padding: 9px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
@@ -57,6 +33,7 @@
 .cloud-facts dt { background: #f1b2dc; border-right: 2px solid #101c4c; font-weight: 900; }
 .cloud-facts dd { background: #fff; font: 700 13px "Courier New", monospace; }
 #cloud-state[data-state="synced"] { color: #17651f; background: #caff9b; }
+#cloud-state[data-state="device-only"] { color: #654900; background: #fff5a3; }
 #cloud-state[data-state="pending"],#cloud-state[data-state="setup-needed"] { color: #7b4100; background: #fff5a3; }
 .account-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 .account-actions button,.emergency-backup button { min-height: 40px; padding: 8px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
@@ -66,9 +43,10 @@
 .emergency-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 @media (max-width: 680px) {
-  .auth-layout { grid-template-columns: 1fr; }
-  .auth-art { min-height: 190px; max-height: 230px; border-right: 0; border-bottom: 3px solid #101c4c; }
-  .auth-form-wrap { padding: 24px 20px 30px; }
+  .pay-schedule { padding: 18px 16px 22px; }
+  .pay-schedule-form { grid-template-columns: 1fr; }
+  .account-auth { padding: 18px 16px 22px; }
+  .account-auth .auth-form { grid-template-columns: 1fr; }
   .account-layout { grid-template-columns: 1fr; padding: 16px; }
   .account-icon { min-height: 130px; }
   .cloud-facts div { grid-template-columns: 92px minmax(0,1fr); }
