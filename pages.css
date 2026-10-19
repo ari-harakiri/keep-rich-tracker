@@ -174,7 +174,7 @@
 
 .calendar-summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   padding: 12px;
   background: #79d34e;
@@ -345,7 +345,7 @@
 
 .calendar-shift-card {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) auto;
   gap: 7px;
   align-items: center;
   padding: 9px;
@@ -888,6 +888,7 @@
   }
 
   .calendar-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
     padding: 8px;
   }

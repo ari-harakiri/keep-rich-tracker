@@ -44,6 +44,9 @@ if (!/<input id="pay-date" type="hidden">/.test(html) || /Pay date · auto/.test
 if (!/id="pay-schedule-form"/.test(html) || !/id="schedule-use-paystub"/.test(html)) {
   throw new Error('Account must include automatic pay schedule controls.');
 }
+if (!/id="calendar-commission"/.test(html) || !/Projected earnings/.test(html) || !/Expected commission/.test(html)) {
+  throw new Error('Calendar must show projected earnings and expected commission.');
+}
 if (!/setSession\(null\);\s*clearLocalTracker\(\);/.test(scripts)) {
   throw new Error('Signing out must clear account data from the current browser.');
 }

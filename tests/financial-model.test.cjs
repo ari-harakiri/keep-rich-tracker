@@ -1,6 +1,9 @@
 const assert = require('node:assert/strict');
 const model = require('../financial-model.js');
 
+assert.equal(model.roundMoney(153.075), 153.08);
+assert.equal(model.roundMoney(-1.005), -1.01);
+
 function shift(overrides = {}) {
   return { date: '2026-10-01', payDate: '2026-10-16', hours: 8, tips: 0, sales: 0, ...overrides };
 }
@@ -95,6 +98,18 @@ function stub(overrides = {}) {
 }
 
 {
+  assert.equal(model.projectedShiftEarnings([
+    shift({ shiftType: 'budtending', hours: 8, hourlyWage: 20, tips: 30, sales: 1000 })
+  ]), 205);
+  assert.equal(model.projectedShiftEarnings([
+    shift({ shiftType: 'inventory', hours: 8, hourlyWage: 20, tips: 30, sales: null })
+  ]), 190);
+  assert.equal(model.projectedShiftEarnings([
+    shift({ shiftType: 'budtending', hours: null, hourlyWage: 20, tips: 30, sales: 1000 })
+  ]), null);
+}
+
+{
   const legacyShift = { id: 'old-1', date: '2025-01-01', payDate: '2025-01-10', hours: 4, tips: null, sales: 0 };
   const legacyStub = { id: 'old-stub', payDate: '2025-01-10', periodStart: null, periodEnd: null, hours: 80, commission: 0, gross: 1500, net: 1200 };
   const roundTrip = JSON.parse(JSON.stringify({ shifts: [legacyShift], paystubs: [legacyStub] }));
@@ -119,4 +134,4 @@ function stub(overrides = {}) {
   assert.equal(model.inferPayDate('2026-10-31', paystubs, manual), '2026-11-13');
 }
 
-console.log('financial-model: 11 scenario groups passed');
+console.log('financial-model: 12 scenario groups passed');

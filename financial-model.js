@@ -8,7 +8,10 @@
   const COMMISSION_RATE = 0.015;
   const DAY_MS = 86400000;
   const known = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value));
-  const roundMoney = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+  const roundMoney = value => {
+    const amount = Number(value);
+    return Math.sign(amount) * Math.round((Math.abs(amount) + 1e-10) * 100) / 100;
+  };
 
   function utcDay(value) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
@@ -109,6 +112,16 @@
     };
   }
 
+  function projectedShiftEarnings(shifts) {
+    const rows = Array.isArray(shifts) ? shifts : [];
+    const earnings = rows.map(shift => known(shift?.hours) && known(shift?.hourlyWage)
+      ? Number(shift.hours) * Number(shift.hourlyWage) + (known(shift?.tips) ? Number(shift.tips) : 0)
+      : null);
+    if (!earnings.length || earnings.some(value => value === null)) return null;
+    const commission = commissionFromShifts(rows).expected;
+    return roundMoney(earnings.reduce((sum, value) => sum + value, 0) + (known(commission) ? commission : 0));
+  }
+
   function matchShiftsToPaystub(paystub, shifts) {
     const rows = Array.isArray(shifts) ? shifts : [];
     const periodStart = paystub?.periodStart;
@@ -204,6 +217,7 @@
     inferPayDate,
     scheduleFromPaystubs,
     commissionFromShifts,
+    projectedShiftEarnings,
     matchShiftsToPaystub,
     summarizeSelection,
     provisionalShiftSummary

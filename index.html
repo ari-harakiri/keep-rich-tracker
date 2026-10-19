@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#008080">
-<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=47"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=34"><link rel="stylesheet" href="cloud.css?v=26"><link rel="stylesheet" href="layout-rebuild.css?v=47">
+<meta name="description" content="A retro shift, tips, sales, commission, and paystub tracker."><title>Keep Rich Shift Tracker</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="intro.css?v=22"><link rel="stylesheet" href="theme.css?v=47"><link rel="stylesheet" href="wordart.css?v=35"><link rel="stylesheet" href="paystub.css"><link rel="stylesheet" href="pages.css?v=35"><link rel="stylesheet" href="cloud.css?v=26"><link rel="stylesheet" href="layout-rebuild.css?v=47">
 </head>
 <body><main class="desktop"><section class="window app-shell" aria-labelledby="app-title">
   <header class="titlebar"><div class="titlebar__text"><span aria-hidden="true">✿</span><h1 id="app-title">KEEP_RICH.EXE</h1></div></header>
@@ -42,9 +42,9 @@
 
   <section class="dashboard-group calendar-composition page-section" data-page="calendar" aria-label="Calendar">
     <section class="window inset wide-panel calendar-panel" id="calendar-page" aria-labelledby="calendar-title">
-      <header class="mini-title badge-row"><h3 id="calendar-title">Earnings Calendar</h3><span class="calendar-badge">WAGE + TIPS</span></header>
+      <header class="mini-title badge-row"><h3 id="calendar-title">Earnings Calendar</h3><span class="calendar-badge">WAGE + TIPS + COMM.</span></header>
       <div class="calendar-toolbar"><button type="button" id="calendar-prev" aria-label="Previous month">◀</button><div><strong id="calendar-month"></strong><span id="calendar-subtitle"></span></div><img class="pink-pattern-sticker pink-pattern-sticker--calendar-toolbar" src="layout-assets/pink-leaf-sparkle-v2.png" alt="" aria-hidden="true"><button type="button" id="calendar-today">Today</button><button type="button" id="calendar-next" aria-label="Next month">▶</button></div>
-      <div class="calendar-summary" aria-label="Monthly summary"><article><span>Month earnings</span><strong id="calendar-total">—</strong></article><article><span>Hours logged</span><strong id="calendar-hours">—</strong></article><article><span>Average hourly</span><strong id="calendar-hourly">—</strong></article><img class="pink-pattern-sticker pink-pattern-sticker--calendar-summary" src="layout-assets/pink-leaf-sparkle-v2.png" alt="" aria-hidden="true"></div>
+      <div class="calendar-summary" aria-label="Monthly summary"><article><span>Projected earnings</span><strong id="calendar-total">—</strong></article><article><span>Hours logged</span><strong id="calendar-hours">—</strong></article><article><span>Projected hourly</span><strong id="calendar-hourly">—</strong></article><article><span>Expected commission</span><strong id="calendar-commission">—</strong></article><img class="pink-pattern-sticker pink-pattern-sticker--calendar-summary" src="layout-assets/pink-leaf-sparkle-v2.png" alt="" aria-hidden="true"></div>
       <div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
       <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="calendar-month"></div>
       <section class="calendar-detail" aria-live="polite"><img class="pink-pattern-sticker pink-pattern-sticker--calendar-detail" src="layout-assets/pink-leaf-sparkle-v2.png" alt="" aria-hidden="true"><header><div><span>SELECTED DAY</span><h4 id="calendar-detail-date">Choose a day</h4></div><button type="button" id="calendar-log-day">Log this day</button></header><div id="calendar-detail-body"><p>Select a date to see its shifts.</p></div></section>
@@ -107,7 +107,7 @@
       <footer class="note-dialog__actions"><button type="button" id="close-note-bottom">Close</button></footer>
     </div>
   </dialog>
-</section></main><script src="cloud.js?v=26"></script><script src="financial-model.js?v=5"></script><script src="app.js?v=49"></script><script>
+</section></main><script src="cloud.js?v=26"></script><script src="financial-model.js?v=7"></script><script src="app.js?v=50"></script><script>
 window.KeepRichPdfReaderReady = false;
 window.KeepRichPendingPaystubFile = null;
 const reportPdfReaderError = detail => {
