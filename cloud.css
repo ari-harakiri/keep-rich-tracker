@@ -37,6 +37,8 @@
 #cloud-state[data-state="pending"],#cloud-state[data-state="setup-needed"] { color: #7b4100; background: #fff5a3; }
 .account-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 .account-actions button,.emergency-backup button { min-height: 40px; padding: 8px 14px; color: #101c4c; background: #fff267; border: 3px solid; border-color: #fff #333 #333 #fff; box-shadow: 3px 3px 0 #ff66c7; font-weight: 900; cursor: pointer; }
+.account-actions .account-signout-all { color: #101c4c; background: #ff9bd8; box-shadow: 3px 3px 0 #d90072; }
+.account-actions button:disabled { opacity: .55; cursor: wait; }
 .emergency-backup { padding: 16px 24px 20px; background: #d9ccff; border-top: 3px solid #101c4c; }
 .emergency-backup summary { cursor: pointer; font-weight: 900; }
 .emergency-backup p { font-size: 13px; }

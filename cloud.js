@@ -101,6 +101,7 @@
     $('#account-auth').hidden = true;
     $('#cloud-sync-now').hidden = false;
     $('#account-signout').hidden = false;
+    $('#account-signout-all').hidden = false;
   }
 
   function showSignedOut(message = '') {
@@ -108,7 +109,29 @@
     $('#account-auth').hidden = false;
     $('#cloud-sync-now').hidden = true;
     $('#account-signout').hidden = true;
+    $('#account-signout-all').hidden = true;
     setCloudStatus('Device only', message || 'Your data is saved in this browser. Email sync is optional.', 'device-only');
+  }
+
+  function setSignoutDisabled(disabled) {
+    $('#account-signout').disabled = disabled;
+    $('#account-signout-all').disabled = disabled;
+  }
+
+  function finishSignout(message) {
+    setSession(null);
+    clearLocalTracker();
+    $('#cloud-last').textContent = 'Not signed in';
+    showSignedOut(message);
+  }
+
+  async function revokeSession(scope) {
+    const current = await ensureSession();
+    if (!current) return false;
+    await responseData(await fetch(`${SUPABASE_URL}/auth/v1/logout?scope=${encodeURIComponent(scope)}`, {
+      method: 'POST', headers: authHeaders(current.access_token)
+    }));
+    return true;
   }
 
   function loadPayload(payload) {
@@ -228,14 +251,28 @@
   });
 
   $('#account-signout').addEventListener('click', async () => {
-    const current = await ensureSession();
+    setSignoutDisabled(true);
     try {
-      if (current) await responseData(await fetch(`${SUPABASE_URL}/auth/v1/logout`, { method: 'POST', headers: authHeaders(current.access_token) }));
-    } catch {}
-    setSession(null);
-    clearLocalTracker();
-    $('#cloud-last').textContent = 'Not signed in';
-    showSignedOut('Signed out. This device is clear, and your account copy remains safely online.');
+      await revokeSession('local');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      finishSignout('Signed out on this device. Your other devices and account copy remain available.');
+    }
+  });
+  $('#account-signout-all').addEventListener('click', async () => {
+    if (!confirm('Sign out of every device? Every phone and browser will need to sign in again. Your cloud tracker data will stay safely online.')) return;
+    setSignoutDisabled(true);
+    setCloudStatus('Signing out…', 'Revoking signed-in sessions on every device.', 'saving');
+    try {
+      const revoked = await revokeSession('global');
+      if (!revoked) throw new Error('Your session expired. Sign in again before using Sign out all devices.');
+      finishSignout('Signed out on every device. Your cloud tracker data remains safely online. Other devices may stay active briefly until their current access tokens expire.');
+    } catch (error) {
+      console.error(error);
+      setCloudStatus('Sign-out failed', `${error.message} Your current session is still available so you can retry.`, 'offline');
+      setSignoutDisabled(false);
+    }
   });
   $('#cloud-sync-now').addEventListener('click', () => changed('Manual sync'));
   $('#cloud-download').addEventListener('click', () => {
