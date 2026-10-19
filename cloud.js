@@ -22,6 +22,7 @@
   };
   let session = readJson(SESSION_KEY, null);
   let syncQueue = Promise.resolve();
+  let sessionCheck = null;
 
   function trackerPayload() {
     const shifts = readJson(SHIFT_KEY, []);
@@ -134,6 +135,41 @@
     return true;
   }
 
+  async function serverSessionIsActive(current) {
+    const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      method: 'GET', headers: authHeaders(current.access_token)
+    });
+    if (response.ok) return true;
+    if (response.status === 401 || response.status === 403) return false;
+    await responseData(response);
+    return false;
+  }
+
+  function checkForRemoteSignout() {
+    if (!session?.access_token || sessionCheck) return sessionCheck;
+    const checkedToken = session.access_token;
+    sessionCheck = (async () => {
+      try {
+        const current = await ensureSession();
+        if (!current) {
+          finishSignout('This device was signed out from another device. Your cloud tracker data remains safely online.');
+          return false;
+        }
+        const active = await serverSessionIsActive(current);
+        if (!active && session?.access_token === checkedToken) {
+          finishSignout('This device was signed out from another device. Your cloud tracker data remains safely online.');
+        }
+        return active;
+      } catch (error) {
+        console.warn('Could not verify the current account session.', error);
+        return null;
+      } finally {
+        sessionCheck = null;
+      }
+    })();
+    return sessionCheck;
+  }
+
   function loadPayload(payload) {
     if (!payload || !Array.isArray(payload.shifts) || !Array.isArray(payload.paystubs)) throw new Error('Cloud data is not in a recognized format.');
     localStorage.setItem(SHIFT_KEY, JSON.stringify(payload.shifts));
@@ -172,6 +208,14 @@
   async function hydrate() {
     const current = await ensureSession();
     if (!current?.user?.id) { showSignedOut(); return; }
+    try {
+      if (!await serverSessionIsActive(current)) {
+        finishSignout('This device was signed out from another device. Your cloud tracker data remains safely online.');
+        return;
+      }
+    } catch (error) {
+      console.warn('Could not verify the current account session during startup.', error);
+    }
     showSignedIn(current.user);
     setCloudStatus('Connecting', 'Checking for your saved tracker data…', 'connecting');
     localStorage.setItem(LAST_USER_KEY, current.user.id);
@@ -267,7 +311,7 @@
     try {
       const revoked = await revokeSession('global');
       if (!revoked) throw new Error('Your session expired. Sign in again before using Sign out all devices.');
-      finishSignout('Signed out on every device. Your cloud tracker data remains safely online. Other devices may stay active briefly until their current access tokens expire.');
+      finishSignout('Sign-out sent to every device. Open Keep Rich tabs will close within about 15 seconds or when reopened. Your cloud tracker data remains safely online.');
     } catch (error) {
       console.error(error);
       setCloudStatus('Sign-out failed', `${error.message} Your current session is still available so you can retry.`, 'offline');
@@ -291,6 +335,13 @@
     event.target.value = '';
   });
   window.addEventListener('online', () => { if (localStorage.getItem(DIRTY_KEY) === '1') changed('Pending changes'); });
+  window.addEventListener('focus', checkForRemoteSignout);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') checkForRemoteSignout();
+  });
+  setInterval(() => {
+    if (document.visibilityState === 'visible') checkForRemoteSignout();
+  }, 15000);
 
   window.KeepRichCloud = { changed, hydrate, payload: trackerPayload };
   switchAuthMode('signin');
